@@ -22,15 +22,17 @@ def main():
 			print("B=-1")
 		print("You rolled a " + str(roll1) + " and a " + str(roll2))
 		for i in range(moves):
-			print("You have "+ str(moves-i)+" moves")
-			print("What you wanna do? input:column steps")
-			line = input()
-			column,steps = parseInput(line)
-			if(column==100):
-				return
-			outcome, response = b.makeMove(SIDE,column,steps)
-			print(response)
-			print(b)
+			outcome=False
+			while(outcome==False):
+				print("You have "+ str(moves-i)+" moves")
+				print("What you wanna do? input:column steps")
+				line = input()
+				column,steps = parseInput(line)
+				if(column==100):
+					return
+				outcome, response = b.makeMove(SIDE,column,steps)
+				print(response)
+				print(b)
 
 def parseInput(response):
 	if response in exitTerms:
@@ -42,7 +44,7 @@ def parseInput(response):
 
 def findSeparation(value):
 	for i in range(len(value)):
-		if (value[i] == ' ' or value[i] == ','):
+		if (value[i] == ' '):
 			return i
 	return 0
 
