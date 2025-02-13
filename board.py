@@ -32,7 +32,7 @@ class Board:
 				return (False, "Free the jail!")
 			elif(self.wJail > 0 and column ==0):
 				#controllo casella arrivo, nel caso la fai
-				if(column+speps<25):
+				if(column+steps<25):
 					return(False,"Wrong steps number!")
 				else:
 					#fai la mossa
@@ -77,7 +77,59 @@ class Board:
 								self.myBoard[column]+=-1
 								self.myBoard[column+steps]+=1
 							if(column+steps>17):
-								self.wHome+=+1
+								self.wHome+=1
+							return(True,"mossa fatta")
+		else:
+			if (self.bJail > 0 and column!=23):
+				return (False, "Free the jail!")
+			elif(self.bJail > 0 and column ==23):
+				#controllo casella arrivo, nel caso la fai
+				if(column-steps<0):
+					return(False,"Wrong steps number!")
+				else:
+					#fai la mossa
+					if(self.myBoard[column-steps]>1):
+						return(False,"casella di arrivo non possibile da occupare")
+					else:
+						#fai la mossa
+						self.bJail+=-1
+						if(self.myBoard[column-steps]==1):
+							self.wJail+=1
+							self.myBoard[column]+=1
+							self.myBoard[column-steps]=-1
+						else:
+							self.myBoard[column]+=1
+							self.myBoard[column-steps]+=-1
+						return(True,"mossa fatta")
+			if(column <0 and column >25):
+				return (False, "Wrong number for the column!(too low or too big)")
+			else:
+				if(self.myBoard[column]>-1):
+					return (False, "Wrong number for the column!(there aren't a black piece)")
+				else:
+					#controllo casa arrivo
+					if((column-steps)<0):
+					    return(False,"mossa non possibile")
+					elif((column-steps)==0):
+						#controlla se tutti i pezzi sono a casa
+						if(self.bBoard == self.bHome):
+							self.myBoard[column]+=1
+							self.bFree +=1
+							self.bBoard +=-1
+					else:
+						if(self.myBoard[column-steps]<-1):
+							return(False,"casella di arrivo non possibile da occupare")
+						else:
+							#fai la mossa
+							if(self.myBoard[column-steps]==1):
+								self.wJail+=1
+								self.myBoard[column]+=1
+								self.myBoard[column-steps]=-1
+							else:
+								self.myBoard[column]+=1
+								self.myBoard[column-steps]+=-1
+							if(column+steps<7):
+								self.wHome+=1
 							return(True,"mossa fatta")
 
 	def __repr__(self):
