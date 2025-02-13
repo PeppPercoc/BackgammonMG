@@ -19,8 +19,10 @@ class Board:
 		self.bFree = 0
 		self.wJail = 0
 		self.bJail = 0
-		self.wHome = 5#?
-		self.bHome = 5#?
+		self.wHome = 5
+		self.bHome = 5
+		self.wBoard = 15
+		self.bBoard = 15
 
 	def makeMove(self,side,column,steps):#manca controllo steps
 		#controllo il lato, controllo se ci sono pedine in prigione, controllo se sulla colonna giusta posso muovermi, controllo la mossa
@@ -34,11 +36,19 @@ class Board:
 					return(False,"Wrong steps number!")
 				else:
 					#fai la mossa
-					print("python di merda")
-			else:
-				#python di merda
-				print("python di merda")
-			print("python di merda")
+					if(self.myBoard[column+steps]<-1):
+						return(False,"True: casella di arrivo non possibile da occupare")
+					else:
+						#fai la mossa
+						self.wJail+=-1
+						if(self.myBoard[column+steps]==-1):
+							self.bJail+=1
+							self.myBoard[column]+=-1
+							self.myBoard[column+steps]=1
+						else:
+							self.myBoard[column]+=-1
+							self.myBoard[column+steps]+=1
+						return(True,"mossa fatta")
 			if(column <0 and column >25):
 				return (False, "Wrong number for the column!(too low or too big)")
 			else:
@@ -50,7 +60,10 @@ class Board:
 					    return(False,"mossa non possibile")
 					elif((column+steps)==25):
 						#controlla se tutti i pezzi sono a casa
-						print("python di merda")
+						if(self.wBoard == self.wHome):
+							self.myBoard[column]+=-1
+							self.wFree +=1
+							self.wBoard +=-1
 					else:
 						if(self.myBoard[column+steps]<-1):
 							return(False,"casella di arrivo non possibile da occupare")
@@ -63,6 +76,8 @@ class Board:
 							else:
 								self.myBoard[column]+=-1
 								self.myBoard[column+steps]+=1
+							if(column+steps>17):
+								self.wHome+=+1
 							return(True,"mossa fatta")
 
 	def __repr__(self):
