@@ -37,7 +37,7 @@ class Board:
 				else:
 					#fai la mossa
 					if(self.myBoard[column+steps]<-1):
-						return(False,"True: casella di arrivo non possibile da occupare")
+						return(False,"casella di arrivo non possibile da occupare")
 					else:
 						#fai la mossa
 						self.wJail+=-1
