@@ -39,6 +39,8 @@ def main():
 			SIDE=True
 
 def parseInput(response):
+	if (response =='s'):
+		return (101,101)#skip perchè non ci sono mosse disponibili
 	if response in exitTerms:
 		return (100, 100)#controllo quit
 	# if type(response) == type("Sample string"):
