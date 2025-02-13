@@ -12,15 +12,20 @@ def main():
 		roll1 = random.randint(1,6)
 		roll2 = random.randint(1,6)
 		turnComplete = False
-		move = 2
+		moves = 2
 		if (roll1==roll2):
-			move += 4
+			moves = 4
 		if (SIDE==True):
 			print("W=1")
 		else:
 			print("B=-1")
-		print("You rolled a " + str(roll1) + " and a " + str(roll2)+", you have "+ str(move)+" moves")
+		print("You rolled a " + str(roll1) + " and a " + str(roll2))
+		for i in range(moves)
+		print(", you have "+ str(moves-(i-1))+" moves")
+		print("what you wanna do? input:column steps")
 		line = input()
+		column,steps = parseInput(line)
+		outcome, response = b.makeMove(SIDE,column,steps)
 
 if __name__ == "__main__":
 	main()
