@@ -33,6 +33,10 @@ def main():
 				outcome, response = b.makeMove(SIDE,column,steps)
 				print(response)
 				print(b)
+		if (SIDE==True):
+			SIDE=False
+		else:
+			SIDE=True
 
 def parseInput(response):
 	if response in exitTerms:
