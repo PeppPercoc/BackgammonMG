@@ -1,5 +1,6 @@
 from board import Board
 import random
+import sys
 
 exitTerms = "q"
 def main():
@@ -20,12 +21,30 @@ def main():
 		else:
 			print("B=-1")
 		print("You rolled a " + str(roll1) + " and a " + str(roll2))
-		for i in range(moves)
-		print(", you have "+ str(moves-(i-1))+" moves")
-		print("what you wanna do? input:column steps")
-		line = input()
-		column,steps = parseInput(line)
-		outcome, response = b.makeMove(SIDE,column,steps)
+		for i in range(moves):
+			print("You have "+ str(moves-i)+" moves")
+			print("What you wanna do? input:column steps")
+			line = input()
+			column,steps = parseInput(line)
+			outcome, response = b.makeMove(SIDE,column,steps)
+			print(response)
+			print(b)
+
+def parseInput(response):
+	if response == "d" or response == "f" or response == "done" or response == "finish":
+		return(100,100)
+	if response in exitTerms:
+		return (101, 101)#controllo quit
+	# if type(response) == type("Sample string"):
+	# 	return(101,101)
+	loc = findSeparation(response)
+	return(int(response[:loc]), int(response[loc+1:]))
+
+def findSeparation(value):
+	for i in range(len(value)):
+		if (value[i] == ' ' or value[i] == ','):
+			return i
+	return 0
 
 if __name__ == "__main__":
 	main()

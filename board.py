@@ -24,6 +24,7 @@ class Board:
 
 	def makeMove(self,side,column,steps):#manca controllo steps
 		#controllo il lato, controllo se ci sono pedine in prigione, controllo se sulla colonna giusta posso muovermi, controllo la mossa
+		column+=-1
 		if side:#white +1
 			if (self.wJail > 0 and column!=0):
 				return (False, "Free the jail!")
@@ -61,7 +62,7 @@ class Board:
 								self.myBoard[column+steps]=1
 							else:
 								self.myBoard[column]+=-1
-								self.myBoard[column+steps]=1
+								self.myBoard[column+steps]+=1
 							return(True,"mossa fatta")
 
 	def __repr__(self):
