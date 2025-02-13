@@ -26,15 +26,15 @@ def main():
 			print("What you wanna do? input:column steps")
 			line = input()
 			column,steps = parseInput(line)
+			if(column==100):
+				return
 			outcome, response = b.makeMove(SIDE,column,steps)
 			print(response)
 			print(b)
 
 def parseInput(response):
-	if response == "d" or response == "f" or response == "done" or response == "finish":
-		return(100,100)
 	if response in exitTerms:
-		return (101, 101)#controllo quit
+		return (100, 100)#controllo quit
 	# if type(response) == type("Sample string"):
 	# 	return(101,101)
 	loc = findSeparation(response)
