@@ -229,13 +229,13 @@ class Board:
 									arrayResponse.append([[i,roll1],[i+roll1,roll2]])
 					if(arrayResponse==[[-1,-1],[-1,-1]]):
 						for i in range(24):
-							if(self.myBoard[i]>1):
+							if(self.myBoard[i]>0):
 								#posMove(side,i,roll1)
 								if(self.posMove(side,i,roll1)):
 									arrayResponse.append([[i,roll1],[-1,-1]])
 						#o
 						for i in range(24):
-							if(self.myBoard[i]>1):
+							if(self.myBoard[i]>0):
 								#posMove(side,i,roll2)
 								if(self.posMove(side,i,roll2)):
 									arrayResponse.append([[i,roll2],[-1,-1]])
@@ -266,6 +266,23 @@ class Board:
 				if(self.myBoard[column-steps]>1):
 					return False
 			return True
+
+	def heuristic(self,side,turn):
+		if(side):
+			v=[-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6]
+			w1=(8)
+			w2=
+			w3= -2
+			w4=-1
+			k=-12
+			sumPos=0
+			for i in range(24):
+				if(self.myBoard[i]>0):
+					for j in range(self.myBoard[i])
+						sumPos+=v[i]
+			if(turn):
+				M=3
+			return sumPos+(w1*self.wHome)+w2*(palline minacciate)+self.wJail()+M
 
 	def __repr__(self):
 		boardstring = "Board\n"

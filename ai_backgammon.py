@@ -1,7 +1,7 @@
 import backgammon
 
-def main2():
+def ai_main():
     backgammon.main()
 
 if __name__ == "__main__":
-    main2()
+    ai_main2()
