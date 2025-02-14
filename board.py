@@ -133,7 +133,7 @@ class Board:
 							return(True,"mossa fatta")
 
 	def posMoves(self,side,roll1,roll2):
-		ArrayResponse=[[-1,-1],[-1,-1]]
+		arrayResponse=[[-1,-1],[-1,-1]]
 		if side:
 			if (self.wJail>1):
 				#fai qualcosa
@@ -141,15 +141,15 @@ class Board:
 				#posMove(side,0,roll2)
 				if(self.posMove(side,0,roll1)):
 					if(self.posMove(side,0,roll2)):
-						ArrayResponse.append([[0,roll1],[0,roll2]])
+						arrayResponse.append([[0,roll1],[0,roll2]])
 					else:
 						#o solo
 						#posMove(side,0,roll1)
-						ArrayResponse.append([[0,roll1],[-1,-1]])
+						arrayResponse.append([[0,roll1],[-1,-1]])
 				#o solo
 				#posMove(side,0,roll2)
 				if(self.posMove(side,0,roll2)):
-						ArrayResponse.append([[0,roll1],[-1,-1]])
+						arrayResponse.append([[0,roll1],[-1,-1]])
 			elif (self.wJail==1):
 				#posMove(side,0,roll1)
 				if(self.posMove(side,0,roll1)):
@@ -157,12 +157,12 @@ class Board:
 						if(self.myBoard[i]>0):
 							#posMove(side,i,roll2)
 							if(self.posMove(side,i,roll2)):
-								ArrayResponse.append([[0,roll1],[i,roll2]])
+								arrayResponse.append([[0,roll1],[i,roll2]])
 				else:
 					#o solo
 					#posMove(side,0,roll2)
 					if(self.posMove(side,0,roll2)):
-						ArrayResponse.append([[0,roll2],[-1,-1]])
+						arrayResponse.append([[0,roll2],[-1,-1]])
 				#o
 				#posMove(side,0,roll2)
 				if(self.posMove(side,0,roll2)):
@@ -170,12 +170,12 @@ class Board:
 						if(self.myBoard[i]>0):
 							#posMove(side,i,roll1)
 							if(self.posMove(side,i,roll1)):
-								ArrayResponse.append([[0,roll2],[i,roll1]])
+								arrayResponse.append([[0,roll2],[i,roll1]])
 				else:
 					#o solo
 					#posMove(side,0,roll1)
 					if(self.posMove(side,0,roll1)):
-						ArrayResponse.append([[0,roll1],[-1,-1]])
+						arrayResponse.append([[0,roll1],[-1,-1]])
 			else:
 				if(roll1!=roll2):
 					for i in range(24):
@@ -184,7 +184,7 @@ class Board:
 							if(self.posMove(side,i,roll1)):
 								#posMove(side,i,roll2)
 								if(self.posMove(side,i,roll2)):
-									ArrayResponse.append([[i,roll1],[i,roll2]])
+									arrayResponse.append([[i,roll1],[i,roll2]])
 						if(self.myBoard[i]>1):
 							#posMove(side,i,roll1)
 							if(self.posMove(side,i,roll1)):
@@ -193,23 +193,23 @@ class Board:
 										if(self.myBoard[j]>1):
 											#posMove(side,j,roll2)
 											if(self.posMove(side,j,roll2)):
-												ArrayResponse.append([[i,roll1],[j,roll2]])
-					if(ArrayResponse==[[-1,-1],[-1,-1]]):
+												arrayResponse.append([[i,roll1],[j,roll2]])
+					if(arrayResponse==[[-1,-1],[-1,-1]]):
 						for i in range(24):
 							if(self.myBoard[i]>1):
 								#posMove(side,i,roll1)
 								if(self.posMove(side,i,roll1)):
-									ArrayResponse.append([[i,roll1],[-1,-1]])
+									arrayResponse.append([[i,roll1],[-1,-1]])
 						#o
 						for i in range(24):
 							if(self.myBoard[i]>1):
 								#posMove(side,i,roll2)
 								if(self.posMove(side,i,roll2)):
-									ArrayResponse.append([[i,roll2],[-1,-1]])
+									arrayResponse.append([[i,roll2],[-1,-1]])
 				else:
 					#caso dadi doppio
 					print("py di merda")
-		return ArrayResponse[2:]
+		return arrayResponse[2:]
 
 	def posMove(self,side,column,steps):
 		if(side):
