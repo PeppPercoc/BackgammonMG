@@ -213,9 +213,15 @@ class Board:
 
 	def posMove(self,side,column,steps):
 		if(side):
-			if(column+steps>0 and column+steps<24):#problema uscire dal cazzo
-				if(self.myBoard[column+steps]<-1):
-					return False
+			if(column+steps>0 and column+steps<25):
+				if(column+steps==24):
+					if(self.wBoard == self.wHome):
+						return True
+					else:
+						return False
+				else:
+					if(self.myBoard[column+steps]<-1):i
+						return False
 			return True
 		else:
 			if(column-steps>0 and column-steps<25):
