@@ -17,7 +17,7 @@ class Board:
 		self.myBoard[18] = 5
 		self.wFree = 0
 		self.bFree = 0
-		self.wJail = 0
+		self.wJail = 2
 		self.bJail = 0
 		self.wHome = 5
 		self.bHome = 5
