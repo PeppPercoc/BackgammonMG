@@ -17,7 +17,7 @@ class Board:
 		self.myBoard[18] = 5
 		self.wFree = 0
 		self.bFree = 0
-		self.wJail = 2
+		self.wJail = 0
 		self.bJail = 0
 		self.wHome = 5
 		self.bHome = 5
@@ -142,47 +142,70 @@ class Board:
 				if(self.posMove(side,0,roll1)):
 					if(self.posMove(side,0,roll2)):
 						ArrayResponse.append([[0,roll1],[0,roll2]])
-				#o
-				#posMove(side,0,roll1)
-				#o
+					else:
+						#o solo
+						#posMove(side,0,roll1)
+						ArrayResponse.append([[0,roll1],[-1,-1]])
+				#o solo
 				#posMove(side,0,roll2)
+				if(self.posMove(side,0,roll2)):
+						ArrayResponse.append([[0,roll1],[-1,-1]])
 			elif (self.wJail==1):
 				#posMove(side,0,roll1)
-				for i in range(24):
-					if(self.myBoard[i]>0):
-						#posMove(side,i,roll2)
-						print("py di merda")
-					#o
-				#posMove(side,0,roll2)
-				for i in range(24):
-					if(self.myBoard[i]>0):
-						#posMove(side,i,roll1)
-						print("py di merda")
+				if(self.posMove(side,0,roll1)):
+					for i in range(24):
+						if(self.myBoard[i]>0):
+							#posMove(side,i,roll2)
+							if(self.posMove(side,i,roll2)):
+								ArrayResponse.append([[0,roll1],[i,roll2]])
+				else:
+					#o solo
+					#posMove(side,0,roll2)
+					if(self.posMove(side,0,roll2)):
+						ArrayResponse.append([[0,roll2],[-1,-1]])
 				#o
-				#posMove(side,0,roll1)
-				#o
 				#posMove(side,0,roll2)
+				if(self.posMove(side,0,roll2)):
+					for i in range(24):
+						if(self.myBoard[i]>0):
+							#posMove(side,i,roll1)
+							if(self.posMove(side,i,roll1)):
+								ArrayResponse.append([[0,roll2],[i,roll1]])
+				else:
+					#o solo
+					#posMove(side,0,roll1)
+					if(self.posMove(side,0,roll1)):
+						ArrayResponse.append([[0,roll1],[-1,-1]])
 			else:
-				for i in range(24):
-					if(self.myBoard[i]>1):
-						#posMove(side,i,roll1)
-						#posMove(side,i,roll2)
-						print("py di merda")
-					elif(self.myBoard[i]==1):
-						#posMove(side,i,roll1)
-						for j in range(24):
-							#posMove(side,j,roll2)
-							print("py di merda")
-				if(ArrayResponse=={}):
+				if(roll1!=roll2):
 					for i in range(24):
 						if(self.myBoard[i]>1):
 							#posMove(side,i,roll1)
-							print("py di merda")
-					#o
-					for i in range(24):
-						if(self.myBoard[i]>1):
-							#posMove(side,i,roll2)
-							print("py di merda")
+							if(self.posMove(side,i,roll1)):
+								#posMove(side,i,roll2)
+								if(self.posMove(side,i,roll2)):
+									ArrayResponse.append([[i,roll1],[i,roll2]])
+						elif(self.myBoard[i]==1):
+							#posMove(side,i,roll1)
+							if(self.posMove(side,i,roll1)):
+								for j in range(24):
+									#posMove(side,j,roll2)
+									if(self.posMove(side,j,roll2)):
+										ArrayResponse.append([[i,roll1],[j,roll2]])
+					if(ArrayResponse==[[-1,-1],[-1,-1]]):
+						for i in range(24):
+							if(self.myBoard[i]>1):
+								#posMove(side,i,roll1)
+								if(self.posMove(side,i,roll1)):
+									ArrayResponse.append([[i,roll1],[-1,-1]])
+						#o
+						for i in range(24):
+							if(self.myBoard[i]>1):
+								#posMove(side,i,roll2)
+								if(self.posMove(side,i,roll2)):
+									ArrayResponse.append([[i,roll2],[-1,-1]])
+				else:
+					#caso dadi doppio
 		return ArrayResponse
 
 	def posMove(self,side,column,steps):
