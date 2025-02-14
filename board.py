@@ -26,7 +26,6 @@ class Board:
 
 	def makeMove(self,side,column,steps):#manca controllo steps
 		#controllo il lato, controllo se ci sono pedine in prigione, controllo se sulla colonna giusta posso muovermi, controllo la mossa
-		column+=-1
 		if side:#white +1
 			if (self.wJail > 0 and column!=0):
 				return (False, "Free the jail!")
@@ -132,10 +131,42 @@ class Board:
 								self.wHome+=1
 							return(True,"mossa fatta")
 
+#	def posMoves2(self,side,roll1,roll2):
+#		arrayResponse=[[-1,-1],[-1,-1]]
+#		if(side):
+#			if(roll1==roll2):
+#				for i to range(4):
+#					tempBoard=self.myBoard
+#					tempwFree = self.wFree
+#					tempwJail = self.wJail
+#					tempwHome = self.wHome
+#					tempwBoard = self.wBoard
+#					if(tempwjal>1):
+#						posMoves2Internal(tempBoard,side,roll1)
+#			else:
+#				#creo tabella temporanea
+#				posMoves2Internal()#fai prima mossa
+#						#inserisci nell'array di risposta 1+(-1)
+#		else:
+#			#side black
+#
+#	def posMoves2Internal(board, side, roll1):
+#		if(side):
+#			if(tempwjal>1):
+#				if(self.posMove(side,0,roll1)):
+#					#modifico tabella temp
+#					#aggiungo mossa all array
+#					return posMoves2Internal()
+#			else:
+#				for i in range(24):
+#					if(self.posMove(side,i,roll1)):
+#						#modifico tabella temp
+#					return #mossa fatta
+
 	def posMoves(self,side,roll1,roll2):
 		arrayResponse=[[-1,-1],[-1,-1]]
 		if side:
-			if (self.wJail>1):
+			if (self.wJail>1):#devo controllare caso doppio
 				#fai qualcosa
 				#posMove(side,0,roll1)
 				#posMove(side,0,roll2)
@@ -179,21 +210,23 @@ class Board:
 			else:
 				if(roll1!=roll2):
 					for i in range(24):
-						if(self.myBoard[i]>1):
+						if(self.myBoard[i]>0):
 							#posMove(side,i,roll1)
 							if(self.posMove(side,i,roll1)):
 								#posMove(side,i,roll2)
 								if(self.posMove(side,i,roll2)):
 									arrayResponse.append([[i,roll1],[i,roll2]])
-						if(self.myBoard[i]>1):
+						if(self.myBoard[i]>0):
 							#posMove(side,i,roll1)
 							if(self.posMove(side,i,roll1)):
 								for j in range(24):
 									if(i!=j):
-										if(self.myBoard[j]>1):
+										if(self.myBoard[j]>0):
 											#posMove(side,j,roll2)
 											if(self.posMove(side,j,roll2)):
 												arrayResponse.append([[i,roll1],[j,roll2]])
+								if(self.posMove(side,i+roll1,roll2)):
+									arrayResponse.append([[i,roll1],[i+roll1,roll2]])
 					if(arrayResponse==[[-1,-1],[-1,-1]]):
 						for i in range(24):
 							if(self.myBoard[i]>1):
@@ -209,6 +242,11 @@ class Board:
 				else:
 					#caso dadi doppio
 					print("py di merda")
+					for i in range(24):
+						if(self.myBoard[i]>3):
+							if(self.posMove(side,i,roll1)):
+									arrayResponse.append([[i,roll1],[i,roll1],[i,roll1],[i,roll1]])
+
 		return arrayResponse[2:]
 
 	def posMove(self,side,column,steps):
@@ -220,7 +258,7 @@ class Board:
 					else:
 						return False
 				else:
-					if(self.myBoard[column+steps]<-1):i
+					if(self.myBoard[column+steps]<-1):
 						return False
 			return True
 		else:
