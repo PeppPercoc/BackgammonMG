@@ -13,8 +13,8 @@ class Board:
 		self.myBoard[11] = 5
 		self.myBoard[12] = -5
 		self.myBoard[16] = 3
-		self.myBoard[18] = 5
 		self.myBoard[23] = -2
+		self.myBoard[18] = 5
 		self.wFree = 0
 		self.bFree = 0
 		self.wJail = 0
@@ -131,6 +131,71 @@ class Board:
 							if(column+steps<7):
 								self.wHome+=1
 							return(True,"mossa fatta")
+
+	def posMoves(self,side,roll1,roll2):
+		ArrayResponse=[[-1,-1],[-1,-1]]
+		if side:
+			if (self.wJail>1):
+				#fai qualcosa
+				#posMove(side,0,roll1)
+				#posMove(side,0,roll2)
+				if(self.posMove(side,0,roll1)):
+					if(self.posMove(side,0,roll2)):
+						ArrayResponse.append([[0,roll1],[0,roll2]])
+				#o
+				#posMove(side,0,roll1)
+				#o
+				#posMove(side,0,roll2)
+			elif (self.wJail==1):
+				#posMove(side,0,roll1)
+				for i in range(24):
+					if(self.myBoard[i]>0):
+						#posMove(side,i,roll2)
+						print("py di merda")
+					#o
+				#posMove(side,0,roll2)
+				for i in range(24):
+					if(self.myBoard[i]>0):
+						#posMove(side,i,roll1)
+						print("py di merda")
+				#o
+				#posMove(side,0,roll1)
+				#o
+				#posMove(side,0,roll2)
+			else:
+				for i in range(24):
+					if(self.myBoard[i]>1):
+						#posMove(side,i,roll1)
+						#posMove(side,i,roll2)
+						print("py di merda")
+					elif(self.myBoard[i]==1):
+						#posMove(side,i,roll1)
+						for j in range(24):
+							#posMove(side,j,roll2)
+							print("py di merda")
+				if(ArrayResponse=={}):
+					for i in range(24):
+						if(self.myBoard[i]>1):
+							#posMove(side,i,roll1)
+							print("py di merda")
+					#o
+					for i in range(24):
+						if(self.myBoard[i]>1):
+							#posMove(side,i,roll2)
+							print("py di merda")
+		return ArrayResponse
+
+	def posMove(self,side,column,steps):
+		if(side):
+			if(column+steps>0 and column+steps<25):
+				if(self.myBoard[column+steps]<-1):
+					return False
+			return True
+		else:
+			if(column-steps>0 and column-steps<25):
+				if(self.myBoard[column-steps]>1):
+					return False
+			return True
 
 	def __repr__(self):
 		boardstring = "Board\n"
