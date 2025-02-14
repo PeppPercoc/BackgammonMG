@@ -185,13 +185,15 @@ class Board:
 								#posMove(side,i,roll2)
 								if(self.posMove(side,i,roll2)):
 									ArrayResponse.append([[i,roll1],[i,roll2]])
-						elif(self.myBoard[i]==1):
+						if(self.myBoard[i]>1):
 							#posMove(side,i,roll1)
 							if(self.posMove(side,i,roll1)):
 								for j in range(24):
-									#posMove(side,j,roll2)
-									if(self.posMove(side,j,roll2)):
-										ArrayResponse.append([[i,roll1],[j,roll2]])
+									if(i!=j):
+										if(self.myBoard[j]>1):
+											#posMove(side,j,roll2)
+											if(self.posMove(side,j,roll2)):
+												ArrayResponse.append([[i,roll1],[j,roll2]])
 					if(ArrayResponse==[[-1,-1],[-1,-1]]):
 						for i in range(24):
 							if(self.myBoard[i]>1):
@@ -206,11 +208,12 @@ class Board:
 									ArrayResponse.append([[i,roll2],[-1,-1]])
 				else:
 					#caso dadi doppio
-		return ArrayResponse
+					print("py di merda")
+		return ArrayResponse[2:]
 
 	def posMove(self,side,column,steps):
 		if(side):
-			if(column+steps>0 and column+steps<25):
+			if(column+steps>0 and column+steps<24):#problema uscire dal cazzo
 				if(self.myBoard[column+steps]<-1):
 					return False
 			return True
@@ -226,6 +229,6 @@ class Board:
 			boardstring += str(f"{self.myBoard[i]:^3}")
 		boardstring += "\n"
 		for i in range(24):
-			boardstring += str(f"{(i+1):^3}")
+			boardstring += str(f"{(i):^3}")
 		boardstring += "\n"
 		return boardstring
