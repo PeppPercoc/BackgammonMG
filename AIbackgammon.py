@@ -1,7 +1,6 @@
 import random
 import pickle
 from board import Board
-import time
 
 class AgenteRicercaLocale:
     def __init__(self):
@@ -44,5 +43,4 @@ if __name__ == "__main__":
     salva_politica(agente)
 
     print("L'allenamento è completato! Ora l'IA giocherà una partita.")
-    time.sleep(3)
     gioca_partita(agente)
