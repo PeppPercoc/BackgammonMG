@@ -248,6 +248,13 @@ class Board:
 		if(side):
 			if(column+steps>23):
 				if(self.wBoard == self.wHome):
+					if(column+steps>24):
+						temp=False
+						for i in range(column-1):
+							if(self.myBoard[i]>0):
+								temp=True
+						if(temp=True):
+							return False
 					return True
 				else:
 					return False
