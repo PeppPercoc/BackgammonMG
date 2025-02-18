@@ -208,7 +208,6 @@ class Board:
 					if(self.posMove(side,0,roll1)):
 						arrayResponse.append([[0,roll1],[-1,-1]])
 			else:
-				if(roll1!=roll2):
 					for i in range(24):
 						if(self.myBoard[i]>0):
 							#posMove(side,i,roll1)
@@ -241,14 +240,6 @@ class Board:
 												temp=True
 								if(temp==False):
 									arrayResponse.append([[i,roll2],[-1,-1]])
-				else:
-					#caso dadi doppio
-					print("py di merda")
-					for i in range(24):
-						if(self.myBoard[i]>3):
-							if(self.posMove(side,i,roll1)):
-									arrayResponse.append([[i,roll1],[i,roll1],[i,roll1],[i,roll1]])
-
 		return arrayResponse[2:]
 
 	def posMove(self,side,column,steps):
@@ -272,19 +263,27 @@ class Board:
 	def heuristic(self,side,turn):
 		if(side):
 			v=[-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6]
-			w1=(8)
-			w2=
+			w1=8
+			w2=1#sbagliato
 			w3= -2
 			w4=-1
 			k=-12
+			M=3
 			sumPos=0
+			pallineMinacciate=0
 			for i in range(24):
 				if(self.myBoard[i]>0):
-					for j in range(self.myBoard[i])
+					for j in range(self.myBoard[i]):
 						sumPos+=v[i]
-			if(turn):
-				M=3
-			return sumPos+(w1*self.wHome)+w2*(palline minacciate)+self.wJail()+M
+			for i in range(24):
+				temp=False
+				if(self.myBoard[i]>0):
+					for j in range(24-i):
+						if(self.myBoard[j]<0):
+							temp=True
+				if(temp==True):
+					pallineMinacciate=+1
+			return sumPos+(w1*self.wFree)+w2*(pallineMinacciate)+self.wJail*(N*w3+)+
 
 	def __repr__(self):
 		boardstring = "Board\n"
