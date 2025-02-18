@@ -264,7 +264,6 @@ class Board:
 		if(side):
 			v=[-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6]
 			w1=8
-			w2=1#sbagliato
 			w3= -2
 			w4=-1
 			K=-12
@@ -272,21 +271,21 @@ class Board:
 			sumPos=0
 			pallineMinacciate=[]
 			for i in range(24):
-				if(self.myBoard[i]==1):
+				if(self.myBoard[i]>0):
 					for j in range(self.myBoard[i]):
 						sumPos+=v[i]
 			for i in range(24):
 				temp=False
-				if(self.myBoard[i]>0):
-					for j in range(24-i):
-						if(self.myBoard[j]<0):
+				if(self.myBoard[i]==1):
+					for j in range(23-i):
+						if(self.myBoard[j+i]<0):
 							temp=True
 				if(temp==True):
 					pallineMinacciate.append(1+(int)((i+1)/2))
 			somMin=0
-			for i in pallineMinacciate:
-				somMin += i
-			return sumPos+(w1*self.wFree)+somMin+self.wJail*(w3+w4+K)+M
+			for pallina in pallineMinacciate:
+				somMin += pallina
+			return sumPos+(w1*self.wFree)-somMin+self.wJail*(w3(num_caselle_occupate_perchè_ci sono_2_o_piu)+w4+K)+M
 
 	def __repr__(self):
 		boardstring = "Board\n"
