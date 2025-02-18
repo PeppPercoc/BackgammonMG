@@ -260,14 +260,14 @@ class Board:
 					return False
 			return True
 
-	def heuristic(self,side,turn):
+	def heuristic(self,side):
 		if(side):
 			v=[-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6]
 			w1=8
 			w2=1#sbagliato
 			w3= -2
 			w4=-1
-			k=-12
+			K=-12
 			M=3
 			sumPos=0
 			pallineMinacciate=[]
@@ -286,7 +286,7 @@ class Board:
 			somMin=0
 			for i in pallineMinacciate:
 				somMin += i
-			return sumPos+(w1*self.wFree)+pallineMinacciate+self.wJail*(w3+w4+K)+M
+			return sumPos+(w1*self.wFree)+somMin+self.wJail*(w3+w4+K)+M
 
 	def __repr__(self):
 		boardstring = "Board\n"
