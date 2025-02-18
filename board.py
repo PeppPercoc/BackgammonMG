@@ -166,8 +166,7 @@ class Board:
 	def posMoves(self,side,roll1,roll2):
 		arrayResponse=[[-1,-1],[-1,-1]]
 		if side:
-			if (self.wJail>1):#devo controllare caso doppio
-				#fai qualcosa
+			if (self.wJail>1):
 				#posMove(side,0,roll1)
 				#posMove(side,0,roll2)
 				if(self.posMove(side,0,roll1)):
@@ -214,8 +213,11 @@ class Board:
 							if(self.posMove(side,i,roll1)):
 								temp = False
 								#posMove(side,i,roll2)
-								if(self.posMove(side,i,roll2)):
-									arrayResponse.append([[i,roll1],[i,roll2]])
+								if(self.myBoard[i]>1):
+									if(self.posMove(side,i,roll2)):
+										arrayResponse.append([[i,roll1],[i,roll2]])
+								if(self.posMove(side,i+roll1,roll2)):#a
+									arrayResponse.append([[i,roll1],[i+roll1,roll2]])
 								for j in range(24):
 									if(i!=j):
 										if(self.myBoard[j]>0):
@@ -223,14 +225,14 @@ class Board:
 											if(self.posMove(side,j,roll2)):
 												temp=True
 												arrayResponse.append([[i,roll1],[j,roll2]])
-								if(self.posMove(side,i+roll1,roll2)):
-									arrayResponse.append([[i,roll1],[i+roll1,roll2]])
 								if(temp==False):
 									arrayResponse.append([[i,roll1],[-1,-1]])
 					for i in range(24):
 						if(self.myBoard[i]>0):
 							#posMove(side,i,roll1)
 							if(self.posMove(side,i,roll2)):
+								if(self.posMove(side,i+roll2,roll1)):
+									arrayResponse.append([[i,roll2],[i+roll2,roll1]])
 								temp=False
 								for j in range(24):
 									if(i!=j):
@@ -244,15 +246,14 @@ class Board:
 
 	def posMove(self,side,column,steps):
 		if(side):
-			if(column+steps>0 and column+steps<25):
-				if(column+steps==24):
-					if(self.wBoard == self.wHome):
-						return True
-					else:
-						return False
+			if(column+steps>23):
+				if(self.wBoard == self.wHome):
+					return True
 				else:
-					if(self.myBoard[column+steps]<-1):
-						return False
+					return False
+			else:
+				if(self.myBoard[column+steps]<-1):
+					return False
 			return True
 		else:
 			if(column-steps>0 and column-steps<25):
@@ -261,31 +262,42 @@ class Board:
 			return True
 
 	def heuristic(self,side):
-		if(side):
-			v=[-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6]
-			w1=8
-			w3= -2
-			w4=-1
-			K=-12
-			M=3
-			sumPos=0
-			pallineMinacciate=[]
-			for i in range(24):
-				if(self.myBoard[i]>0):
-					for j in range(self.myBoard[i]):
-						sumPos+=v[i]
-			for i in range(24):
-				temp=False
-				if(self.myBoard[i]==1):
-					for j in range(23-i):
-						if(self.myBoard[j+i]<0):
-							temp=True
-				if(temp==True):
-					pallineMinacciate.append(1+(int)((i+1)/2))
-			somMin=0
-			for pallina in pallineMinacciate:
-				somMin += pallina
-			return sumPos+(w1*self.wFree)-somMin+self.wJail*(w3(num_caselle_occupate_perchè_ci sono_2_o_piu)+w4+K)+M
+		v=[-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6]
+		w1=8
+		w3= -2
+		w4=-1
+		K=-12
+		M=3
+		sumPos=0
+		pallineMinacciate=[]
+		for i in range(24):
+			if(self.myBoard[i]>0):
+				for j in range(self.myBoard[i]):
+					print(v[i])
+					sumPos+=v[i]
+		for i in range(24):
+			temp=False
+			if(self.myBoard[i]==1):
+				for j in range(23-i):
+					if(self.myBoard[j+i]<0):
+						temp=True
+			if(temp==True):
+				pallineMinacciate.append(1+(int)((i+1)/2))
+		somMin=0
+		for pallina in pallineMinacciate:
+			somMin += pallina
+		numCasOcc=0
+		for i in range(6):
+			if(self.myBoard[i]<-1):
+				numCasOcc+=1
+		print("altre cose")
+		print(sumPos)
+		print(w1)
+		print(self.wFree)
+		print(w1*self.wFree)
+		print(somMin)
+		print(M)
+		return sumPos+(w1*self.wFree)-somMin+self.wJail*(w3*numCasOcc+w4*(6-numCasOcc)+K)+M
 
 	def __repr__(self):
 		boardstring = "Board\n"
