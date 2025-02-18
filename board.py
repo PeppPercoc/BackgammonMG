@@ -213,31 +213,33 @@ class Board:
 						if(self.myBoard[i]>0):
 							#posMove(side,i,roll1)
 							if(self.posMove(side,i,roll1)):
+								temp = False
 								#posMove(side,i,roll2)
 								if(self.posMove(side,i,roll2)):
 									arrayResponse.append([[i,roll1],[i,roll2]])
-						if(self.myBoard[i]>0):
-							#posMove(side,i,roll1)
-							if(self.posMove(side,i,roll1)):
 								for j in range(24):
 									if(i!=j):
 										if(self.myBoard[j]>0):
 											#posMove(side,j,roll2)
 											if(self.posMove(side,j,roll2)):
+												temp=True
 												arrayResponse.append([[i,roll1],[j,roll2]])
 								if(self.posMove(side,i+roll1,roll2)):
 									arrayResponse.append([[i,roll1],[i+roll1,roll2]])
-					if(arrayResponse==[[-1,-1],[-1,-1]]):
-						for i in range(24):
-							if(self.myBoard[i]>0):
-								#posMove(side,i,roll1)
-								if(self.posMove(side,i,roll1)):
+								if(temp==False):
 									arrayResponse.append([[i,roll1],[-1,-1]])
-						#o
-						for i in range(24):
-							if(self.myBoard[i]>0):
-								#posMove(side,i,roll2)
-								if(self.posMove(side,i,roll2)):
+					for i in range(24):
+						if(self.myBoard[i]>0):
+							#posMove(side,i,roll1)
+							if(self.posMove(side,i,roll2)):
+								temp=False
+								for j in range(24):
+									if(i!=j):
+										if(self.myBoard[j]>0):
+											#posMove(side,j,roll2)
+											if(self.posMove(side,j,roll1)):
+												temp=True
+								if(temp==False):
 									arrayResponse.append([[i,roll2],[-1,-1]])
 				else:
 					#caso dadi doppio
