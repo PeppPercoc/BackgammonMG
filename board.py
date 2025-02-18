@@ -270,9 +270,9 @@ class Board:
 			k=-12
 			M=3
 			sumPos=0
-			pallineMinacciate=0
+			pallineMinacciate=[]
 			for i in range(24):
-				if(self.myBoard[i]>0):
+				if(self.myBoard[i]==1):
 					for j in range(self.myBoard[i]):
 						sumPos+=v[i]
 			for i in range(24):
@@ -282,8 +282,11 @@ class Board:
 						if(self.myBoard[j]<0):
 							temp=True
 				if(temp==True):
-					pallineMinacciate=+1
-			return sumPos+(w1*self.wFree)+w2*(pallineMinacciate)+self.wJail*(N*w3+)+
+					pallineMinacciate.append(1+(int)((i+1)/2))
+			somMin=0
+			for i in pallineMinacciate:
+				somMin += i
+			return sumPos+(w1*self.wFree)+pallineMinacciate+self.wJail*(w3+w4+K)+M
 
 	def __repr__(self):
 		boardstring = "Board\n"
