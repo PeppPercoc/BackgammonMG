@@ -253,7 +253,7 @@ class Board:
 						for i in range(column-1):
 							if(self.myBoard[i]>0):
 								temp=True
-						if(temp=True):
+						if(temp==True):
 							return False
 					return True
 				else:
@@ -269,19 +269,18 @@ class Board:
 			return True
 
 	def heuristic(self,side):
-		v=[-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6]
+		vw=[-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6]
+		vb=[6,5,4,3,2,1,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,-18]
 		w1=8
-		w3= -2
+		w3=-2
 		w4=-1
 		K=-12
-		M=3
-		sumPos=0
-		pallineMinacciate=[]
+		sumPosW=0
+		pedineMinacciateW=[]
 		for i in range(24):
 			if(self.myBoard[i]>0):
 				for j in range(self.myBoard[i]):
-					print(v[i])
-					sumPos+=v[i]
+					sumPosW+=vw[i]
 		for i in range(24):
 			temp=False
 			if(self.myBoard[i]==1):
@@ -289,22 +288,44 @@ class Board:
 					if(self.myBoard[j+i]<0):
 						temp=True
 			if(temp==True):
-				pallineMinacciate.append(1+(int)((i+1)/2))
-		somMin=0
-		for pallina in pallineMinacciate:
-			somMin += pallina
-		numCasOcc=0
+				pedineMinacciateW.append(1+(int)((i+1)/2))
+		somMinW=0
+		for pedina in pedineMinacciateW:
+			somMinW += pedina
+		numCasOccW=0
 		for i in range(6):
 			if(self.myBoard[i]<-1):
-				numCasOcc+=1
-		print("altre cose")
-		print(sumPos)
-		print(w1)
-		print(self.wFree)
-		print(w1*self.wFree)
-		print(somMin)
-		print(M)
-		return sumPos+(w1*self.wFree)-somMin+self.wJail*(w3*numCasOcc+w4*(6-numCasOcc)+K)+M
+				numCasOccW+=1
+		#caso nero
+		sumPosB=0
+		pedineMinacciateB=[]
+		for i in range(24):
+			if(self.myBoard[i]<0):
+				for j in range(-self.myBoard[i]):
+					sumPosB+=vb[i]
+		for i in range(24):
+			temp=False
+			if(self.myBoard[i]==-1):
+				for j in range(i):
+					if(self.myBoard[j]>0):
+						temp=True
+			if(temp==True):
+				pedineMinacciateB.append(1+(int)((24-i)/2))
+		somMinB=0
+		for pedina in pedineMinacciateB:
+			somMinB += pedina
+		numCasOccB=0
+		for i in range(6):
+			if(self.myBoard[i]>1):
+				numCasOccB+=1
+		HW = sumPosW+(w1*self.wFree)-somMinW+self.wJail*(w3*numCasOccW+w4*(6-numCasOccW)+K)
+		HB = sumPosB+(w1*self.bFree)-somMinB+self.bJail*(w3*numCasOccB+w4*(6-numCasOccB)+K)
+		if(side):
+			HW+=3
+			return HW-HB
+		else:
+			HB+=3
+			return HB-HW
 
 	def __repr__(self):
 		boardstring = "Board\n"

@@ -22,8 +22,10 @@ def main():
 			print("B=-1")
 		print("You rolled a " + str(roll1) + " and a " + str(roll2))
 		a=b.posMoves(SIDE,roll1,roll2)
-		h=b.heuristic(SIDE)
+		print("possible move:")
 		print(a)
+		h=b.heuristic(SIDE)
+		print("heuristic:")
 		print(h)
 		for i in range(moves):
 			if(skip==False):
