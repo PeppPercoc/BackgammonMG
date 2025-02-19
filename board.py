@@ -328,7 +328,7 @@ class Board:
 			return HB-HW
 
 	def __repr__(self):
-		boardstring = "Board\n"
+		boardstring = ""
 		for i in range(24):
 			boardstring += str(f"{self.myBoard[i]:^3}")
 		boardstring += "\n"
