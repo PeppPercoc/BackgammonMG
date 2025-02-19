@@ -14,8 +14,6 @@ def main():
 		roll2 = random.randint(1,6)
 		moves = 2
 		skip = False
-		if (roll1==roll2):
-			moves = 4
 		if (SIDE==True):
 			print("W=1")
 		else:

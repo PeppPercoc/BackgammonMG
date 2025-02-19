@@ -27,11 +27,11 @@ class Board:
 	def makeMove(self,side,column,steps):#manca controllo steps
 		#controllo il lato, controllo se ci sono pedine in prigione, controllo se sulla colonna giusta posso muovermi, controllo la mossa
 		if side:#white +1
-			if (self.wJail > 0 and column!=0):
+			if (self.wJail > 0 and column!=-1):
 				return (False, "Free the jail!")
-			elif(self.wJail > 0 and column ==0):
+			elif(self.wJail > 0 and column ==-1):
 				#controllo casella arrivo, nel caso la fai
-				if(column+steps<25):
+				if(column+steps>25):
 					return(False,"Wrong steps number!")
 				else:
 					#fai la mossa
@@ -42,27 +42,33 @@ class Board:
 						self.wJail+=-1
 						if(self.myBoard[column+steps]==-1):
 							self.bJail+=1
-							self.myBoard[column]+=-1
 							self.myBoard[column+steps]=1
+							self.bHome+=-1
 						else:
-							self.myBoard[column]+=-1
 							self.myBoard[column+steps]+=1
 						return(True,"mossa fatta")
-			if(column <0 and column >25):
+			if(column <-1 and column >23):
 				return (False, "Wrong number for the column!(too low or too big)")
 			else:
 				if(self.myBoard[column]<1):
 					return (False, "Wrong number for the column!(there aren't a white piece)")
 				else:
-					#controllo casa arrivo
-					if((column+steps)>25):
-					    return(False,"mossa non possibile")
-					elif((column+steps)==25):
+					if((column+steps)>24):
+						for i in range(column):
+							if (self.myBoard[i]>0):
+								return (False, "C'è una pedina piu' indietro")
+						if(self.wBoard == self.wHome):
+							self.myBoard[column]+=-1
+							self.wFree +=1
+							self.wBoard +=-1
+					elif((column+steps)==24):
 						#controlla se tutti i pezzi sono a casa
 						if(self.wBoard == self.wHome):
 							self.myBoard[column]+=-1
 							self.wFree +=1
 							self.wBoard +=-1
+						else:
+							return (False,"non puoi liberare la pedina perche' le altre non sono a casa")
 					else:
 						if(self.myBoard[column+steps]<-1):
 							return(False,"casella di arrivo non possibile da occupare")
@@ -72,18 +78,20 @@ class Board:
 								self.bJail+=1
 								self.myBoard[column]+=-1
 								self.myBoard[column+steps]=1
+								if((column+steps)<6):
+									self.bHome+=-1
 							else:
 								self.myBoard[column]+=-1
 								self.myBoard[column+steps]+=1
 							if(column+steps>17):
 								self.wHome+=1
-							return(True,"mossa fatta")
+					return(True,"mossa fatta")
 		else:
-			if (self.bJail > 0 and column!=23):
+			if (self.bJail > 0 and column!=24):
 				return (False, "Free the jail!")
-			elif(self.bJail > 0 and column ==23):
+			elif(self.bJail > 0 and column ==24):
 				#controllo casella arrivo, nel caso la fai
-				if(column-steps<0):
+				if(column-steps<-1):
 					return(False,"Wrong steps number!")
 				else:
 					#fai la mossa
@@ -94,29 +102,35 @@ class Board:
 						self.bJail+=-1
 						if(self.myBoard[column-steps]==1):
 							self.wJail+=1
-							self.myBoard[column]+=1
-							self.myBoard[column-steps]=-1
+							self.myBoard[column-steps]=1
+							self.wHome+=-1
 						else:
-							self.myBoard[column]+=1
 							self.myBoard[column-steps]+=-1
 						return(True,"mossa fatta")
-			if(column <0 and column >25):
+			if(column <-1 and column >24):
 				return (False, "Wrong number for the column!(too low or too big)")
 			else:
 				if(self.myBoard[column]>-1):
-					return (False, "Wrong number for the column!(there aren't a black piece)")
+					return (False, "Wrong number for the column!(there aren't a white piece)")
 				else:
-					#controllo casa arrivo
-					if((column-steps)<0):
-					    return(False,"mossa non possibile")
-					elif((column-steps)==0):
+					if((column-steps)<-1):#aaa
+						for i in range(23-column):
+							if (self.myBoard[(i+1)+column]<0):
+								return (False, "C'è una pedina piu' indietro")
+						if(self.bBoard == self.bHome):
+							self.myBoard[column]+=1
+							self.bFree +=1
+							self.bBoard +=-1
+					elif((column-steps)==-1):
 						#controlla se tutti i pezzi sono a casa
 						if(self.bBoard == self.bHome):
 							self.myBoard[column]+=1
 							self.bFree +=1
 							self.bBoard +=-1
+						else:
+							return (False,"non puoi liberare la pedina perche' le altre non sono a casa")
 					else:
-						if(self.myBoard[column-steps]<-1):
+						if(self.myBoard[column-steps]>1):
 							return(False,"casella di arrivo non possibile da occupare")
 						else:
 							#fai la mossa
@@ -124,12 +138,14 @@ class Board:
 								self.wJail+=1
 								self.myBoard[column]+=1
 								self.myBoard[column-steps]=-1
+								if((column+steps)>17):
+									self.wHome+=-1
 							else:
 								self.myBoard[column]+=1
 								self.myBoard[column-steps]+=-1
-							if(column+steps<7):
+							if(column+-steps<6):
 								self.wHome+=1
-							return(True,"mossa fatta")
+					return(True,"mossa fatta")
 
 #	def posMoves2(self,side,roll1,roll2):
 #		arrayResponse=[[-1,-1],[-1,-1]]
@@ -169,43 +185,39 @@ class Board:
 			if (self.wJail>1):
 				#posMove(side,0,roll1)
 				#posMove(side,0,roll2)
-				if(self.posMove(side,0,roll1)):
-					if(self.posMove(side,0,roll2)):
-						arrayResponse.append([[0,roll1],[0,roll2]])
+				if(self.posMove(side,-1,roll1)):
+					if(self.posMove(side,-1,roll2)):
+						arrayResponse.append([[-1,roll1],[-1,roll2]])
 					else:
 						#o solo
 						#posMove(side,0,roll1)
-						arrayResponse.append([[0,roll1],[-1,-1]])
+						arrayResponse.append([[-1,roll1],[-1,-1]])
 				#o solo
 				#posMove(side,0,roll2)
-				if(self.posMove(side,0,roll2)):
-						arrayResponse.append([[0,roll1],[-1,-1]])
+				if(self.posMove(side,-1,roll2)):
+						arrayResponse.append([[-1,roll1],[-1,-1]])
 			elif (self.wJail==1):
 				#posMove(side,0,roll1)
-				if(self.posMove(side,0,roll1)):
+				if(self.posMove(side,-1,roll1)):
 					for i in range(24):
 						if(self.myBoard[i]>0):
 							#posMove(side,i,roll2)
 							if(self.posMove(side,i,roll2)):
-								arrayResponse.append([[0,roll1],[i,roll2]])
+								arrayResponse.append([[-1,roll1],[i,roll2]])
+					if(self.posMove(side,roll1-1,roll2)):
+						arrayResponse.append([[-1,roll1],[roll1-1,roll2]])
 				else:
-					#o solo
-					#posMove(side,0,roll2)
-					if(self.posMove(side,0,roll2)):
-						arrayResponse.append([[0,roll2],[-1,-1]])
-				#o
-				#posMove(side,0,roll2)
-				if(self.posMove(side,0,roll2)):
-					for i in range(24):
-						if(self.myBoard[i]>0):
-							#posMove(side,i,roll1)
-							if(self.posMove(side,i,roll1)):
-								arrayResponse.append([[0,roll2],[i,roll1]])
-				else:
-					#o solo
-					#posMove(side,0,roll1)
-					if(self.posMove(side,0,roll1)):
-						arrayResponse.append([[0,roll1],[-1,-1]])
+					if(self.posMove(side,-1,roll2)):
+						for i in range(24):
+							if(self.myBoard[i]>0):
+								#posMove(side,i,roll1)
+								if(self.posMove(side,i,roll1)):
+									arrayResponse.append([[-1,roll2],[i,roll1]])
+					else:
+						#o solo
+						#posMove(side,0,roll1)
+						if(self.posMove(side,-1,roll1)):
+							arrayResponse.append([[-1,roll1],[-1,-1]])
 			else:
 					for i in range(24):
 						if(self.myBoard[i]>0):
@@ -242,6 +254,83 @@ class Board:
 												temp=True
 								if(temp==False):
 									arrayResponse.append([[i,roll2],[-1,-1]])
+		else:
+			if (self.bJail>1):
+				#posMove(side,0,roll1)
+				#posMove(side,0,roll2)
+				if(self.posMove(side,24,roll1)):
+					if(self.posMove(side,24,roll2)):
+						arrayResponse.append([[24,roll1],[24,roll2]])
+					else:
+						#o solo
+						#posMove(side,0,roll1)
+						arrayResponse.append([[24,roll1],[-1,-1]])
+				#o solo
+				#posMove(side,0,roll2)
+				if(self.posMove(side,24,roll2)):
+						arrayResponse.append([[24,roll1],[-1,-1]])
+			elif (self.bJail==1):
+				#posMove(side,0,roll1)
+				if(self.posMove(side,24,roll1)):
+					for i in range(24):
+						if(self.myBoard[i]<0):
+							#posMove(side,i,roll2)
+							if(self.posMove(side,i,roll2)):
+								arrayResponse.append([[24,roll1],[i,roll2]])
+				else:
+					#o solo
+					#posMove(side,0,roll2)
+					if(self.posMove(side,24,roll2)):
+						arrayResponse.append([[24,roll2],[-1,-1]])
+				#o
+				#posMove(side,0,roll2)
+				if(self.posMove(side,24,roll2)):
+					for i in range(24):
+						if(self.myBoard[i]<0):
+							#posMove(side,i,roll1)
+							if(self.posMove(side,i,roll1)):
+								arrayResponse.append([[24,roll2],[i,roll1]])
+				else:
+					#o solo
+					#posMove(side,0,roll1)
+					if(self.posMove(side,24,roll1)):
+						arrayResponse.append([[24,roll1],[-1,-1]])
+			else:
+					for i in range(24):
+						if(self.myBoard[i]<0):
+							#posMove(side,i,roll1)
+							if(self.posMove(side,i,roll1)):
+								temp = False
+								#posMove(side,i,roll2)
+								if(self.myBoard[i]<-1):
+									if(self.posMove(side,i,roll2)):
+										arrayResponse.append([[i,roll1],[i,roll2]])
+								if(self.posMove(side,i-roll1,roll2)):#a
+									arrayResponse.append([[i,roll1],[i-roll1,roll2]])
+								for j in range(24):
+									if(i!=j):
+										if(self.myBoard[j]<0):
+											#posMove(side,j,roll2)
+											if(self.posMove(side,j,roll2)):
+												temp=True
+												arrayResponse.append([[i,roll1],[j,roll2]])
+								if(temp==False):
+									arrayResponse.append([[i,roll1],[-1,-1]])
+					for i in range(24):
+						if(self.myBoard[i]<0):
+							#posMove(side,i,roll1)
+							if(self.posMove(side,i,roll2)):
+								if(self.posMove(side,i-roll2,roll1)):
+									arrayResponse.append([[i,roll2],[i-roll2,roll1]])
+								temp=False
+								for j in range(24):
+									if(i!=j):
+										if(self.myBoard[j]<0):
+											#posMove(side,j,roll2)
+											if(self.posMove(side,j,roll1)):
+												temp=True
+								if(temp==False):
+									arrayResponse.append([[i,roll2],[-1,-1]])
 		return arrayResponse[2:]
 
 	def posMove(self,side,column,steps):
@@ -263,7 +352,19 @@ class Board:
 					return False
 			return True
 		else:
-			if(column-steps>0 and column-steps<25):
+			if(column-steps<0):
+				if(self.bBoard == self.bHome):
+					if(column-steps<-1):
+						temp=False
+						for i in range(23-column):
+							if(self.myBoard[(i+1)+column]<0):
+								temp=True
+						if(temp==True):
+							return False
+					return True
+				else:
+					return False
+			else:
 				if(self.myBoard[column-steps]>1):
 					return False
 			return True
