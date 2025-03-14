@@ -228,8 +228,9 @@ class Board:
 								if(self.myBoard[i]>1):
 									if(self.posMove(side,i,roll2)):
 										arrayResponse.append([[i,roll1],[i,roll2]])
-								if(self.posMove(side,i+roll1,roll2)):#a
-									arrayResponse.append([[i,roll1],[i+roll1,roll2]])
+								if(self.myBoard[i+roll1]==0):
+									if(self.posMove(side,i+roll1,roll2)):
+										arrayResponse.append([[i,roll1],[i+roll1,roll2]])
 								for j in range(24):
 									if(i!=j):
 										if(self.myBoard[j]>0):

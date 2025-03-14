@@ -23,7 +23,10 @@ def main():
 		print("possible move:")
 		print(a)
 		h=b.heuristic(SIDE)
-		print("heuristic:")
+		if (SIDE==True):
+			print("Heuristic White:")
+		else:
+			print("Heuristic Black:")
 		print(h)
 		for i in range(moves):
 			if(skip==False):
