@@ -194,8 +194,8 @@ class Board:
 						arrayResponse.append([[-1,roll1],[-1,-1]])
 				#o solo
 				#posMove(side,0,roll2)
-				if(self.posMove(side,-1,roll2)):
-						arrayResponse.append([[-1,roll1],[-1,-1]])
+				elif(self.posMove(side,-1,roll2)):
+						arrayResponse.append([[-1,roll2],[-1,-1]])
 			elif (self.wJail==1):
 				#posMove(side,0,roll1)
 				if(self.posMove(side,-1,roll1)):
@@ -268,8 +268,8 @@ class Board:
 						arrayResponse.append([[24,roll1],[-1,-1]])
 				#o solo
 				#posMove(side,0,roll2)
-				if(self.posMove(side,24,roll2)):
-						arrayResponse.append([[24,roll1],[-1,-1]])
+				elif(self.posMove(side,24,roll2)):
+						arrayResponse.append([[24,roll2],[-1,-1]])
 			elif (self.bJail==1):
 				#posMove(side,0,roll1)
 				if(self.posMove(side,24,roll1)):
@@ -436,5 +436,9 @@ class Board:
 		boardstring += "\n"
 		for i in range(24):
 			boardstring += str(f"{(i):^3}")
+		boardstring += "\n"
+		boardstring += "w in jail:" +str(f"{self.wJail}")
+		boardstring += "\n"
+		boardstring += "b in jail:" +str(f"{self.bJail}")
 		boardstring += "\n"
 		return boardstring
