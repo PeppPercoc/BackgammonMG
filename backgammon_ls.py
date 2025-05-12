@@ -7,11 +7,11 @@ class RicercaLocale:
 		print("You rolled a " + str(roll1) + " and a " + str(roll2))
 		mosse_possibili = board.posMoves(side,roll1,roll2)
 		if(len(mosse_possibili)!=0):
-			print("mosse possibili:")
+			print("Possible moves:")
 			print(mosse_possibili)
-			print("numero mosse possibili")
+			print("Possible moves number")
 			print(len(mosse_possibili))
-			print("euristica:")
+			print("Heuristic value:")
 			h=board.heuristic(side)
 			print(h)
 			#calcolo temph
@@ -23,17 +23,17 @@ class RicercaLocale:
 			for mossa in mosse_possibili:
 				b2 = deepcopy(board)
 				outcome=False
-				print(f"[DEBUG] Mossa analizzata: {mossa}")
+				print(f"[DEBUG] Analyzed move: {mossa}")
 				# `mossa` è una lista contenente due sottoliste, ad esempio: [[0, 2], [0, 4]]
 				for sublist in mossa:
 					# Ora `sublist` è una lista, ad esempio: [0, 2]
 					# Fai qualcosa con gli elementi dentro la sottolista
-					print(f"Elemento 1: {sublist[0]}, Elemento 2: {sublist[1]}")
+					print(f"First element: {sublist[0]}, Second element: {sublist[1]}")
 					if(sublist[0]!=-1):
 						if(sublist[1]!=-1):
 							outcome,response=b2.makeMove(side,sublist[0],sublist[1])
 				h2=b2.heuristic(side)
-				print("euristica calcolata dopo mossa:")
+				print("Heuristic value after the move:")
 				print(h2)
 				if(h2>temph):
 					temph=h2

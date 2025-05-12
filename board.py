@@ -4,25 +4,7 @@ class Board:
 		-1=black
 		1=white
 		"""
-		self.myBoard = {}
-		for i in range(24):
-			self.myBoard[i] = 0
-		self.myBoard[0] = 2
-		self.myBoard[5] = -5
-		self.myBoard[7] = -3
-		self.myBoard[11] = 5
-		self.myBoard[12] = -5
-		self.myBoard[16] = 3
-		self.myBoard[23] = -2
-		self.myBoard[18] = 5
-		self.wFree = 0
-		self.bFree = 0
-		self.wJail = 0
-		self.bJail = 0
-		self.wHome = 5
-		self.bHome = 5
-		self.wBoard = 15
-		self.bBoard = 15
+		self.init_board()
 
 	def makeMove(self,side,column,steps):
 		#controllo il lato, controllo se ci sono pedine in prigione, controllo se sulla colonna giusta posso muovermi, controllo la mossa
@@ -36,7 +18,7 @@ class Board:
 				else:
 					#fai la mossa
 					if(self.myBoard[column+steps]<-1):
-						return(False,"casella di arrivo non possibile da occupare")
+						return(False,"Arrival point not possible to occupy")
 					else:
 						#fai la mossa
 						self.wJail+=-1
@@ -46,7 +28,7 @@ class Board:
 							self.bHome+=-1
 						else:
 							self.myBoard[column+steps]+=1
-						return(True,"mossa fatta")
+						return(True,"Move done")
 			if(column <-1 and column >23):
 				return (False, "Wrong number for the column!(too low or too big)")
 			else:
@@ -56,7 +38,7 @@ class Board:
 					if((column+steps)>24):
 						for i in range(column):
 							if (self.myBoard[i]>0):
-								return (False, "C'è una pedina piu' indietro")
+								return (False, "There is a piece in a previous point")
 						if(self.wBoard == self.wHome):
 							self.myBoard[column]+=-1
 							self.wFree +=1
@@ -68,10 +50,10 @@ class Board:
 							self.wFree +=1
 							self.wBoard +=-1
 						else:
-							return (False,"non puoi liberare la pedina perche' le altre non sono a casa")
+							return (False,"Impossible to free the piece! The other pieces are not in the home")
 					else:
 						if(self.myBoard[column+steps]<-1):
-							return(False,"casella di arrivo non possibile da occupare")
+							return(False,"Impossible to occupy the arrival point")
 						else:
 							#fai la mossa
 							if(self.myBoard[column+steps]==-1):
@@ -85,7 +67,7 @@ class Board:
 								self.myBoard[column+steps]+=1
 							if(column+steps>17):
 								self.wHome+=1
-					return(True,"mossa fatta")
+					return(True,"Move done")
 		else:
 			if (self.bJail > 0 and column!=24):
 				return (False, "Free the jail!")
@@ -96,7 +78,7 @@ class Board:
 				else:
 					#fai la mossa
 					if(self.myBoard[column-steps]>1):
-						return(False,"casella di arrivo non possibile da occupare")
+						return(False,"Impossible to occupy the arrival point")
 					else:
 						#fai la mossa
 						self.bJail+=-1
@@ -106,17 +88,17 @@ class Board:
 							self.wHome+=-1
 						else:
 							self.myBoard[column-steps]+=-1
-						return(True,"mossa fatta")
+						return(True,"Move done")
 			if(column <-1 and column >24):
 				return (False, "Wrong number for the column!(too low or too big)")
 			else:
 				if(self.myBoard[column]>-1):
 					return (False, "Wrong number for the column!(there aren't a white piece)")
 				else:
-					if((column-steps)<-1):#aaa
+					if((column-steps)<-1):
 						for i in range(23-column):
 							if (self.myBoard[(i+1)+column]<0):
-								return (False, "C'è una pedina piu' indietro")
+								return (False, "There is a piece in a previous point")
 						if(self.bBoard == self.bHome):
 							self.myBoard[column]+=1
 							self.bFree +=1
@@ -128,10 +110,10 @@ class Board:
 							self.bFree +=1
 							self.bBoard +=-1
 						else:
-							return (False,"non puoi liberare la pedina perche' le altre non sono a casa")
+							return (False,"Impossible to free the piece! The other pieces are not in the home")
 					else:
 						if(self.myBoard[column-steps]>1):
-							return(False,"casella di arrivo non possibile da occupare")
+							return(False,"Impossible to occupy the arrival point")
 						else:
 							#fai la mossa
 							if(self.myBoard[column-steps]==1):
@@ -145,7 +127,7 @@ class Board:
 								self.myBoard[column-steps]+=-1
 							if(column+-steps<6):
 								self.wHome+=1
-					return(True,"mossa fatta")
+					return(True,"Move done")
 
 #	def posMoves2(self,side,roll1,roll2):
 #		arrayResponse=[[-1,-1],[-1,-1]]
@@ -428,6 +410,27 @@ class Board:
 		else:
 			HB+=3
 			return HB-HW
+
+	def init_board(self):
+		self.myBoard = {}
+		for i in range(24):
+			self.myBoard[i] = 0
+		self.myBoard[0] = 2
+		self.myBoard[5] = -5
+		self.myBoard[7] = -3
+		self.myBoard[11] = 5
+		self.myBoard[12] = -5
+		self.myBoard[16] = 3
+		self.myBoard[23] = -2
+		self.myBoard[18] = 5
+		self.wFree = 0
+		self.bFree = 0
+		self.wJail = 0
+		self.bJail = 0
+		self.wHome = 5
+		self.bHome = 5
+		self.wBoard = 15
+		self.bBoard = 15
 
 	def __repr__(self):
 		boardstring = ""

@@ -20,13 +20,13 @@ def main():
 			print("B=-1")
 		print("You rolled a " + str(roll1) + " and a " + str(roll2))
 		a=b.posMoves(SIDE,roll1,roll2)
-		print("possible move:")
+		print("Possible move:")
 		print(a)
 		h=b.heuristic(SIDE)
 		if (SIDE==True):
-			print("Heuristic White:")
+			print("Heuristic value White:")
 		else:
-			print("Heuristic Black:")
+			print("Heuristic value Black:")
 		print(h)
 		for i in range(moves):
 			if(skip==False):
