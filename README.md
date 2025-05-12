@@ -42,7 +42,7 @@ Assicurati di avere installato Python 3.10 o superiore.
 
 2. Esegui il file principale:
    ```bash
-   python3 backgammon.py
+   python3 backgammon_pvp.py
    ```
 
 ## ✅ Requisiti
