@@ -50,8 +50,9 @@ def main():
 							skip=True
 							print(b)
 		else:
+			print("You rolled a " + str(roll1) + " and a " + str(roll2))
 			mosse_migliori = agente.scegli_mossa(b,SIDE,roll1,roll2)
-			print("Best moves")
+			print("Best moves:")
 			print(mosse_migliori)
 			for i in range(moves):
 				if(skip==False):

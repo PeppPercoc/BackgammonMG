@@ -4,7 +4,6 @@ from copy import deepcopy
 
 class RicercaLocale:
 	def scegli_mossa(self, board, side, roll1, roll2):
-		print("You rolled a " + str(roll1) + " and a " + str(roll2))
 		mosse_possibili = board.posMoves(side,roll1,roll2)
 		if(len(mosse_possibili)!=0):
 			print("Possible moves:")
