@@ -13,7 +13,7 @@ BackgammonMG è un progetto universitario che implementa il celebre gioco del Ba
 
 ## 🧠 Intelligenza Artificiale
 
-Il modulo `AIbackgammon.py` contiene un agente artificiale basato su una logica euristica da noi scritta per prendere decisioni di gioco. L'IA valuta le mosse disponibili in base a una funzione di valutazione, cercando di massimizzare la propria posizione e minimizzare le possibilità dell’avversario. Attualmente, la strategia si concentra su:
+Il modulo `backgammon_ls.py` contiene un agente artificiale basato su una logica euristica da noi scritta per prendere decisioni di gioco attraverso la ricerca locale. L'IA valuta le mosse disponibili in base a una funzione di valutazione, cercando di massimizzare la propria posizione e minimizzare le possibilità dell’avversario. Attualmente, la strategia si concentra su:
 
 - Protezione delle pedine singole
 - Occupazione delle posizioni strategiche
@@ -24,8 +24,8 @@ Il modulo `AIbackgammon.py` contiene un agente artificiale basato su una logica 
 
 ```
 BackgammonMG/
-├── AIbackgammon.py       # Modulo IA per il computer player
-├── backgammon.py         # Entry point del gioco
+├── backgammon_ls.py       # Modulo IA per il computer player
+├── backgammon_pvp.py         # Entry point del gioco
 ├── board.py              # Gestione del board e delle regole
 └── README.md             # Documentazione del progetto
 ```
