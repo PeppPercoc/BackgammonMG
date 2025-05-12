@@ -24,7 +24,7 @@ class Board:
 		self.wBoard = 15
 		self.bBoard = 15
 
-	def makeMove(self,side,column,steps):#manca controllo steps
+	def makeMove(self,side,column,steps):
 		#controllo il lato, controllo se ci sono pedine in prigione, controllo se sulla colonna giusta posso muovermi, controllo la mossa
 		if side:#white +1
 			if (self.wJail > 0 and column!=-1):
