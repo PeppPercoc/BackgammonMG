@@ -12,20 +12,20 @@ class AgenteRicercaLocale:
 		roll1 = random.randint(1,6)
 		roll2 = random.randint(1,6)
 		print("You rolled a " + str(roll1) + " and a " + str(roll2))
-		mosse_possibili = board.posMoves(side,roll1,roll2)
+		mosse_possibili = board.get_all_possible_moves(side, roll1, roll2)
 		if(len(mosse_possibili)!=0):
 			print("mosse possibili:")
 			print(mosse_possibili)
 			print("numero mosse possibili")
 			print(len(mosse_possibili))
 			print("euristica:")
-			h=board.heuristic(side)
+			h=board.evaluate_heuristic(side)
 			print(h)
 			#calcolo temph
 			tempb = deepcopy(board)
 			for sublist in mosse_possibili[0]:
-				tempb.makeMove(side,sublist[0],sublist[1])
-			temph=tempb.heuristic(side)
+				tempb.make_move(side, sublist[0], sublist[1])
+			temph=tempb.evaluate_heuristic(side)
 			mossa_migliore=[[-1,-1],[-1,-1]]
 			for mossa in mosse_possibili:
 				b2 = deepcopy(board)
@@ -38,8 +38,8 @@ class AgenteRicercaLocale:
 					print(f"Elemento 1: {sublist[0]}, Elemento 2: {sublist[1]}")
 					if(sublist[0]!=-1):
 						if(sublist[1]!=-1):
-							outcome,response=b2.makeMove(side,sublist[0],sublist[1])
-				h2=b2.heuristic(side)
+							outcome,response=b2.make_move(side, sublist[0], sublist[1])
+				h2=b2.evaluate_heuristic(side)
 				print("euristica calcolata dopo mossa:")
 				print(h2)
 				if(h2>temph):
@@ -56,7 +56,7 @@ class AgenteRicercaLocale:
 	def scegli_mossa(self, board, side):
 		roll1 = random.randint(1,6)
 		roll2 = random.randint(1,6)
-		mosse_possibili = board.posMoves(side, roll1, roll2)
+		mosse_possibili = board.get_all_possible_moves(side, roll1, roll2)
 		if not mosse_possibili:
 			return None
 		b = Board()
@@ -106,7 +106,7 @@ def ricerca_locale(agente, episodi=10):
 					if(column==100):
 						return
 					if(column!=101):
-						outcome, response = b.makeMove(side,column,steps)
+						outcome, response = b.make_move(side, column, steps)
 						print(response)
 						print(b)
 					else:

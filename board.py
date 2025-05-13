@@ -1,3 +1,6 @@
+from telnetlib import KERMIT
+
+
 class Board:
 	def __init__(self):
 		"""
@@ -6,7 +9,7 @@ class Board:
 		"""
 		self.init_board()
 
-	def makeMove(self,side,column,steps):
+	def make_move(self, side, column, steps):
 		#controllo il lato, controllo se ci sono pedine in prigione, controllo se sulla colonna giusta posso muovermi, controllo la mossa
 		if side:#white +1
 
@@ -20,60 +23,60 @@ class Board:
 				else:
 					#fai la mossa
 
-					if(self.myBoard[column+steps]<-1):
-						return(False,"Arrival point not possible to occupy")
+					if(self.my_board[column + steps]<-1):
+						return(False,"Arrival column not possible to occupy")
 					else:
 						#fai la mossa
 
-						self.wJail+=-1
-						if(self.myBoard[column+steps]==-1):
-							self.bJail+=1
-							self.myBoard[column+steps]=1
-							self.bHome+=-1
+						self.white_jail+=-1
+						if(self.my_board[column + steps]==-1):
+							self.black_jail+=1
+							self.my_board[column + steps]=1
+							self.black_home+=-1
 						else:
-							self.myBoard[column+steps]+=1
+							self.my_board[column + steps]+=1
 						return(True,"Move done")
 
 			if(column <-1 and column >23):
 				return (False, "Wrong number for the column!(too low or too big)")
 			else:
 
-				if(self.myBoard[column]<1):
+				if(self.my_board[column]<1):
 					return (False, "Wrong number for the column!(there aren't white pieces)")
 				else:
 
 					if((column+steps)>24):
 						for i in range(column):
-							if (self.myBoard[i]>0):
-								return (False, "There is a piece in a previous point")
+							if (self.my_board[i]>0):
+								return (False, "There is a piece in a previous column")
 
-						if(self.wBoard == self.wHome):
-							self.myBoard[column]+=-1
+						if(self.white_board == self.white_home):
+							self.my_board[column]+=-1
 							self.free_white_pieces()
 
 					elif((column+steps)==24):
 						#controlla se tutti i pezzi sono a casa
-						if(self.wBoard == self.wHome):
-							self.myBoard[column]+=-1
+						if(self.white_board == self.white_home):
+							self.my_board[column]+=-1
 							self.free_white_pieces()
 						else:
 							return (False,"Impossible to free the piece! The other pieces are not in the home")
 					else:
-						if(self.myBoard[column+steps]<-1):
-							return(False,"Impossible to occupy the arrival point")
+						if(self.my_board[column + steps]<-1):
+							return(False,"Impossible to occupy the arrival column")
 						else:
 							#fai la mossa
-							if(self.myBoard[column+steps]==-1):
-								self.bJail+=1
-								self.myBoard[column]+=-1
-								self.myBoard[column+steps]=1
+							if(self.my_board[column + steps]==-1):
+								self.black_jail+=1
+								self.my_board[column]+=-1
+								self.my_board[column + steps]=1
 								if((column+steps)<6):
-									self.bHome+=-1
+									self.black_home+=-1
 							else:
-								self.myBoard[column]+=-1
-								self.myBoard[column+steps]+=1
+								self.my_board[column]+=-1
+								self.my_board[column + steps]+=1
 							if(column+steps>17):
-								self.wHome+=1
+								self.white_home+=1
 					return(True,"Move done")
 		else:
 			if (not self.is_black_jail_empty() and column!=24):
@@ -84,251 +87,219 @@ class Board:
 					return(False,"Wrong steps number!")
 				else:
 					#fai la mossa
-					if(self.myBoard[column-steps]>1):
-						return(False,"Impossible to occupy the arrival point")
+					if(self.my_board[column - steps]>1):
+						return(False,"Impossible to occupy the arrival column")
 					else:
 						#fai la mossa
-						self.bJail+=-1
-						if(self.myBoard[column-steps]==1):
-							self.wJail+=1
-							self.myBoard[column-steps]=1
-							self.wHome+=-1
+						self.black_jail+=-1
+						if(self.my_board[column - steps]==1):
+							self.white_jail+=1
+							self.my_board[column - steps]=1
+							self.white_home+=-1
 						else:
-							self.myBoard[column-steps]+=-1
+							self.my_board[column - steps]+=-1
 						return(True,"Move done")
 			if(column <-1 and column >24):
 				return (False, "Wrong number for the column!(too low or too big)")
 			else:
-				if(self.myBoard[column]>-1):
+				if(self.my_board[column]>-1):
 					return (False, "Wrong number for the column!(there aren't a white piece)")
 				else:
 					if((column-steps)<-1):
 						for i in range(23-column):
-							if (self.myBoard[(i+1)+column]<0):
-								return (False, "There is a piece in a previous point")
-						if(self.bBoard == self.bHome):
-							self.myBoard[column]+=1
+							if (self.my_board[(i + 1) + column]<0):
+								return (False, "There is a piece in a previous column")
+						if(self.black_board == self.black_home):
+							self.my_board[column]+=1
 							self.free_black_pieces()
 					elif((column-steps)==-1):
 						#controlla se tutti i pezzi sono a casa
-						if(self.bBoard == self.bHome):
-							self.myBoard[column]+=1
+						if(self.black_board == self.black_home):
+							self.my_board[column]+=1
 							self.free_black_pieces()
 						else:
 							return (False,"Impossible to free the piece! The other pieces are not in the home")
 					else:
-						if(self.myBoard[column-steps]>1):
-							return(False,"Impossible to occupy the arrival point")
+						if(self.my_board[column - steps]>1):
+							return(False,"Impossible to occupy the arrival column")
 						else:
 							#fai la mossa
-							if(self.myBoard[column-steps]==1):
-								self.wJail+=1
-								self.myBoard[column]+=1
-								self.myBoard[column-steps]=-1
+							if(self.my_board[column - steps]==1):
+								self.white_jail+=1
+								self.my_board[column]+=1
+								self.my_board[column - steps]=-1
 								if((column+steps)>17):
-									self.wHome+=-1
+									self.white_home+=-1
 							else:
-								self.myBoard[column]+=1
-								self.myBoard[column-steps]+=-1
+								self.my_board[column]+=1
+								self.my_board[column - steps]+=-1
 							if(column+-steps<6):
-								self.wHome+=1
+								self.white_home+=1
 					return(True,"Move done")
 
-#	def posMoves2(self,side,roll1,roll2):
-#		arrayResponse=[[-1,-1],[-1,-1]]
-#		if(side):
-#			if(roll1==roll2):
-#				for i to range(4):
-#					tempBoard=self.myBoard
-#					tempwFree = self.wFree
-#					tempwJail = self.wJail
-#					tempwHome = self.wHome
-#					tempwBoard = self.wBoard
-#					if(tempwjal>1):
-#						posMoves2Internal(tempBoard,side,roll1)
-#			else:
-#				#creo tabella temporanea
-#				posMoves2Internal()#fai prima mossa
-#						#inserisci nell'array di risposta 1+(-1)
-#		else:
-#			#side black
-#
-#	def posMoves2Internal(board, side, roll1):
-#		if(side):
-#			if(tempwjal>1):
-#				if(self.posMove(side,0,roll1)):
-#					#modifico tabella temp
-#					#aggiungo mossa all array
-#					return posMoves2Internal()
-#			else:
-#				for i in range(24):
-#					if(self.posMove(side,i,roll1)):
-#						#modifico tabella temp
-#					return #mossa fatta
-
-	def posMoves(self,side,roll1,roll2):
-		arrayResponse=[[-1,-1],[-1,-1]]
+	def get_all_possible_moves(self, side, roll1, roll2):
+		array_response=[[-1,-1],[-1,-1]]
 		if side:
-			if (self.wJail>1):
+			if (self.white_jail>1):
 				#posMove(side,0,roll1)
 				#posMove(side,0,roll2)
-				if(self.posMove(side,-1,roll1)):
-					if(self.posMove(side,-1,roll2)):
-						arrayResponse.append([[-1,roll1],[-1,roll2]])
+				if(self.get_possible_move(side, -1, roll1)):
+					if(self.get_possible_move(side, -1, roll2)):
+						array_response.append([[-1,roll1],[-1,roll2]])
 					else:
 						#o solo
 						#posMove(side,0,roll1)
-						arrayResponse.append([[-1,roll1],[-1,-1]])
+						array_response.append([[-1,roll1],[-1,-1]])
 				#o solo
 				#posMove(side,0,roll2)
-				elif(self.posMove(side,-1,roll2)):
-						arrayResponse.append([[-1,roll2],[-1,-1]])
-			elif (self.wJail==1):
+				elif(self.get_possible_move(side, -1, roll2)):
+						array_response.append([[-1,roll2],[-1,-1]])
+			elif (self.white_jail == 1):
 				#posMove(side,0,roll1)
-				if(self.posMove(side,-1,roll1)):
+				if(self.get_possible_move(side, -1, roll1)):
 					for i in range(24):
-						if(self.myBoard[i]>0):
+						if(self.my_board[i]>0):
 							#posMove(side,i,roll2)
-							if(self.posMove(side,i,roll2)):
-								arrayResponse.append([[-1,roll1],[i,roll2]])
-					if(self.posMove(side,roll1-1,roll2)):
-						arrayResponse.append([[-1,roll1],[roll1-1,roll2]])
+							if(self.get_possible_move(side, i, roll2)):
+								array_response.append([[-1,roll1],[i,roll2]])
+					if(self.get_possible_move(side, roll1 - 1, roll2)):
+						array_response.append([[-1,roll1],[roll1-1,roll2]])
 				else:
-					if(self.posMove(side,-1,roll2)):
+					if(self.get_possible_move(side, -1, roll2)):
 						for i in range(24):
-							if(self.myBoard[i]>0):
+							if(self.my_board[i]>0):
 								#posMove(side,i,roll1)
-								if(self.posMove(side,i,roll1)):
-									arrayResponse.append([[-1,roll2],[i,roll1]])
+								if(self.get_possible_move(side, i, roll1)):
+									array_response.append([[-1,roll2],[i,roll1]])
 					else:
 						#o solo
 						#posMove(side,0,roll1)
-						if(self.posMove(side,-1,roll1)):
-							arrayResponse.append([[-1,roll1],[-1,-1]])
+						if(self.get_possible_move(side, -1, roll1)):
+							array_response.append([[-1,roll1],[-1,-1]])
 			else:
 					for i in range(24):
-						if(self.myBoard[i]>0):
+						if(self.my_board[i]>0):
 							#posMove(side,i,roll1)
-							if(self.posMove(side,i,roll1)):
+							if(self.get_possible_move(side, i, roll1)):
 								temp = False
 								#posMove(side,i,roll2)
-								if(self.myBoard[i]>1):
-									if(self.posMove(side,i,roll2)):
-										arrayResponse.append([[i,roll1],[i,roll2]])
-								if(self.myBoard[i+roll1]==0):
-									if(self.posMove(side,i+roll1,roll2)):
-										arrayResponse.append([[i,roll1],[i+roll1,roll2]])
+								if(self.my_board[i]>1):
+									if(self.get_possible_move(side, i, roll2)):
+										array_response.append([[i,roll1],[i,roll2]])
+								if(self.my_board[i + roll1]==0):
+									if(self.get_possible_move(side, i + roll1, roll2)):
+										array_response.append([[i,roll1],[i+roll1,roll2]])
 								for j in range(24):
 									if(i!=j):
-										if(self.myBoard[j]>0):
+										if(self.my_board[j]>0):
 											#posMove(side,j,roll2)
-											if(self.posMove(side,j,roll2)):
+											if(self.get_possible_move(side, j, roll2)):
 												temp=True
-												arrayResponse.append([[i,roll1],[j,roll2]])
+												array_response.append([[i,roll1],[j,roll2]])
 								if(temp==False):
-									arrayResponse.append([[i,roll1],[-1,-1]])
+									array_response.append([[i,roll1],[-1,-1]])
 					for i in range(24):
-						if(self.myBoard[i]>0):
+						if(self.my_board[i]>0):
 							#posMove(side,i,roll1)
-							if(self.posMove(side,i,roll2)):
-								if(self.posMove(side,i+roll2,roll1)):
-									arrayResponse.append([[i,roll2],[i+roll2,roll1]])
+							if(self.get_possible_move(side, i, roll2)):
+								if(self.get_possible_move(side, i + roll2, roll1)):
+									array_response.append([[i,roll2],[i+roll2,roll1]])
 								temp=False
 								for j in range(24):
 									if(i!=j):
-										if(self.myBoard[j]>0):
+										if(self.my_board[j]>0):
 											#posMove(side,j,roll2)
-											if(self.posMove(side,j,roll1)):
+											if(self.get_possible_move(side, j, roll1)):
 												temp=True
 								if(temp==False):
-									arrayResponse.append([[i,roll2],[-1,-1]])
+									array_response.append([[i,roll2],[-1,-1]])
 		else:
-			if (self.bJail>1):
+			if (self.black_jail>1):
 				#posMove(side,0,roll1)
 				#posMove(side,0,roll2)
-				if(self.posMove(side,24,roll1)):
-					if(self.posMove(side,24,roll2)):
-						arrayResponse.append([[24,roll1],[24,roll2]])
+				if(self.get_possible_move(side, 24, roll1)):
+					if(self.get_possible_move(side, 24, roll2)):
+						array_response.append([[24,roll1],[24,roll2]])
 					else:
 						#o solo
 						#posMove(side,0,roll1)
-						arrayResponse.append([[24,roll1],[-1,-1]])
+						array_response.append([[24,roll1],[-1,-1]])
 				#o solo
 				#posMove(side,0,roll2)
-				elif(self.posMove(side,24,roll2)):
-						arrayResponse.append([[24,roll2],[-1,-1]])
-			elif (self.bJail==1):
+				elif(self.get_possible_move(side, 24, roll2)):
+						array_response.append([[24,roll2],[-1,-1]])
+			elif (self.black_jail == 1):
 				#posMove(side,0,roll1)
-				if(self.posMove(side,24,roll1)):
+				if(self.get_possible_move(side, 24, roll1)):
 					for i in range(24):
-						if(self.myBoard[i]<0):
+						if(self.my_board[i]<0):
 							#posMove(side,i,roll2)
-							if(self.posMove(side,i,roll2)):
-								arrayResponse.append([[24,roll1],[i,roll2]])
+							if(self.get_possible_move(side, i, roll2)):
+								array_response.append([[24,roll1],[i,roll2]])
 				else:
 					#o solo
 					#posMove(side,0,roll2)
-					if(self.posMove(side,24,roll2)):
-						arrayResponse.append([[24,roll2],[-1,-1]])
+					if(self.get_possible_move(side, 24, roll2)):
+						array_response.append([[24,roll2],[-1,-1]])
 				#o
 				#posMove(side,0,roll2)
-				if(self.posMove(side,24,roll2)):
+				if(self.get_possible_move(side, 24, roll2)):
 					for i in range(24):
-						if(self.myBoard[i]<0):
+						if(self.my_board[i]<0):
 							#posMove(side,i,roll1)
-							if(self.posMove(side,i,roll1)):
-								arrayResponse.append([[24,roll2],[i,roll1]])
+							if(self.get_possible_move(side, i, roll1)):
+								array_response.append([[24,roll2],[i,roll1]])
 				else:
 					#o solo
 					#posMove(side,0,roll1)
-					if(self.posMove(side,24,roll1)):
-						arrayResponse.append([[24,roll1],[-1,-1]])
+					if(self.get_possible_move(side, 24, roll1)):
+						array_response.append([[24,roll1],[-1,-1]])
 			else:
 					for i in range(24):
-						if(self.myBoard[i]<0):
+						if(self.my_board[i]<0):
 							#posMove(side,i,roll1)
-							if(self.posMove(side,i,roll1)):
+							if(self.get_possible_move(side, i, roll1)):
 								temp = False
 								#posMove(side,i,roll2)
-								if(self.myBoard[i]<-1):
-									if(self.posMove(side,i,roll2)):
-										arrayResponse.append([[i,roll1],[i,roll2]])
-								if(self.posMove(side,i-roll1,roll2)):#a
-									arrayResponse.append([[i,roll1],[i-roll1,roll2]])
+								if(self.my_board[i]<-1):
+									if(self.get_possible_move(side, i, roll2)):
+										array_response.append([[i,roll1],[i,roll2]])
+								if(self.get_possible_move(side, i - roll1, roll2)):#a
+									array_response.append([[i,roll1],[i-roll1,roll2]])
 								for j in range(24):
 									if(i!=j):
-										if(self.myBoard[j]<0):
+										if(self.my_board[j]<0):
 											#posMove(side,j,roll2)
-											if(self.posMove(side,j,roll2)):
+											if(self.get_possible_move(side, j, roll2)):
 												temp=True
-												arrayResponse.append([[i,roll1],[j,roll2]])
+												array_response.append([[i,roll1],[j,roll2]])
 								if(temp==False):
-									arrayResponse.append([[i,roll1],[-1,-1]])
+									array_response.append([[i,roll1],[-1,-1]])
 					for i in range(24):
-						if(self.myBoard[i]<0):
+						if(self.my_board[i]<0):
 							#posMove(side,i,roll1)
-							if(self.posMove(side,i,roll2)):
-								if(self.posMove(side,i-roll2,roll1)):
-									arrayResponse.append([[i,roll2],[i-roll2,roll1]])
+							if(self.get_possible_move(side, i, roll2)):
+								if(self.get_possible_move(side, i - roll2, roll1)):
+									array_response.append([[i,roll2],[i-roll2,roll1]])
 								temp=False
 								for j in range(24):
 									if(i!=j):
-										if(self.myBoard[j]<0):
+										if(self.my_board[j]<0):
 											#posMove(side,j,roll2)
-											if(self.posMove(side,j,roll1)):
+											if(self.get_possible_move(side, j, roll1)):
 												temp=True
 								if(temp==False):
-									arrayResponse.append([[i,roll2],[-1,-1]])
-		return arrayResponse[2:]
+									array_response.append([[i,roll2],[-1,-1]])
+		return array_response[2:]
 
-	def posMove(self,side,column,steps):
+	def get_possible_move(self, side, column, steps):
 		if(side):
 			if(column+steps>23):
-				if(self.wBoard == self.wHome):
+				if(self.white_board == self.white_home):
 					if(column+steps>24):
 						temp=False
 						for i in range(column-1):
-							if(self.myBoard[i]>0):
+							if(self.my_board[i]>0):
 								temp=True
 						if(temp==True):
 							return False
@@ -336,16 +307,16 @@ class Board:
 				else:
 					return False
 			else:
-				if(self.myBoard[column+steps]<-1):
+				if(self.my_board[column + steps]<-1):
 					return False
 			return True
 		else:
 			if(column-steps<0):
-				if(self.bBoard == self.bHome):
+				if(self.black_board == self.black_home):
 					if(column-steps<-1):
 						temp=False
 						for i in range(23-column):
-							if(self.myBoard[(i+1)+column]<0):
+							if(self.my_board[(i + 1) + column]<0):
 								temp=True
 						if(temp==True):
 							return False
@@ -353,114 +324,114 @@ class Board:
 				else:
 					return False
 			else:
-				if(self.myBoard[column-steps]>1):
+				if(self.my_board[column - steps]>1):
 					return False
 			return True
 
-	def heuristic(self,side):
-		vw=[-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6]
-		vb=[6,5,4,3,2,1,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,-18]
-		w1=8
-		w3=-2
-		w4=-1
-		K=-12
-		sumPosW=0
-		pedineMinacciateW=[]
+	def evaluate_heuristic(self, side):
+		points_vector_white=[-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6]
+		points_vector_black=[6,5,4,3,2,1,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,-18]
+		K1=8
+		K2=-2
+		K3=-1
+		K4=-12
+		sum_pos_white=0
+		threatened_pieces_white=[]
 		for i in range(24):
-			if(self.myBoard[i]>0):
-				for j in range(self.myBoard[i]):
-					sumPosW+=vw[i]
+			if(self.my_board[i]>0):
+				for j in range(self.my_board[i]):
+					sum_pos_white+=points_vector_white[i]
 		for i in range(24):
 			temp=False
-			if(self.myBoard[i]==1):
+			if(self.my_board[i]==1):
 				for j in range(23-i):
-					if(self.myBoard[j+i]<0):
+					if(self.my_board[j + i]<0):
 						temp=True
 			if(temp==True):
-				pedineMinacciateW.append(1+(int)((i+1)/2))
-		somMinW=0
-		for pedina in pedineMinacciateW:
-			somMinW += pedina
-		numCasOccW=0
+				threatened_pieces_white.append(1+(int)((i+1)/2))
+		threatened_white_sum=0
+		for piece in threatened_pieces_white:
+			threatened_white_sum += piece
+		occupied_columns_number_white=0
 		for i in range(6):
-			if(self.myBoard[i]<-1):
-				numCasOccW+=1
+			if(self.my_board[i]<-1):
+				occupied_columns_number_white+=1
 		#caso nero
-		sumPosB=0
-		pedineMinacciateB=[]
+		sum_pos_black=0
+		threatened_pieces_black=[]
 		for i in range(24):
-			if(self.myBoard[i]<0):
-				for j in range(-self.myBoard[i]):
-					sumPosB+=vb[i]
+			if(self.my_board[i]<0):
+				for j in range(-self.my_board[i]):
+					sum_pos_black+=points_vector_black[i]
 		for i in range(24):
 			temp=False
-			if(self.myBoard[i]==-1):
+			if(self.my_board[i]==-1):
 				for j in range(i):
-					if(self.myBoard[j]>0):
+					if(self.my_board[j]>0):
 						temp=True
 			if(temp==True):
-				pedineMinacciateB.append(1+(int)((24-i)/2))
-		somMinB=0
-		for pedina in pedineMinacciateB:
-			somMinB += pedina
-		numCasOccB=0
+				threatened_pieces_black.append(1+(int)((24-i)/2))
+		threatened_black_sum=0
+		for piece in threatened_pieces_black:
+			threatened_black_sum += piece
+		occupied_columns_number_black=0
 		for i in range(6):
-			if(self.myBoard[i]>1):
-				numCasOccB+=1
-		HW = sumPosW+(w1*self.wFree)-somMinW+self.wJail*(w3*numCasOccW+w4*(6-numCasOccW)+K)
-		HB = sumPosB+(w1*self.bFree)-somMinB+self.bJail*(w3*numCasOccB+w4*(6-numCasOccB)+K)
+			if(self.my_board[i]>1):
+				occupied_columns_number_black+=1
+		heuristic_white = sum_pos_white + (K1*self.wFree) - threatened_white_sum + self.white_jail * (K2 * occupied_columns_number_white + K3 * (6 - occupied_columns_number_white) + K4)
+		heuristic_black = sum_pos_black + (K1*self.bFree) - threatened_black_sum + self.black_jail * (K2 * occupied_columns_number_black + K3 * (6 - occupied_columns_number_black) + K4)
 		if(side):
-			HW+=3
-			return HW-HB
+			heuristic_white+=3
+			return heuristic_white-heuristic_black
 		else:
-			HB+=3
-			return HB-HW
+			heuristic_black+=3
+			return heuristic_black-heuristic_white
 
 	def init_board(self):
-		self.myBoard = {}
+		self.my_board = {}
 		for i in range(24):
-			self.myBoard[i] = 0
-		self.myBoard[0] = 2
-		self.myBoard[5] = -5
-		self.myBoard[7] = -3
-		self.myBoard[11] = 5
-		self.myBoard[12] = -5
-		self.myBoard[16] = 3
-		self.myBoard[23] = -2
-		self.myBoard[18] = 5
+			self.my_board[i] = 0
+		self.my_board[0] = 2
+		self.my_board[5] = -5
+		self.my_board[7] = -3
+		self.my_board[11] = 5
+		self.my_board[12] = -5
+		self.my_board[16] = 3
+		self.my_board[23] = -2
+		self.my_board[18] = 5
 		self.wFree = 0
 		self.bFree = 0
-		self.wJail = 0
-		self.bJail = 0
-		self.wHome = 5
-		self.bHome = 5
-		self.wBoard = 15
-		self.bBoard = 15
+		self.white_jail = 0
+		self.black_jail = 0
+		self.white_home = 5
+		self.black_home = 5
+		self.white_board = 15
+		self.black_board = 15
 
 	def is_white_jail_empty(self):
-		return self.wJail==0
+		return self.white_jail==0
 
 	def is_black_jail_empty(self):
-		return self.bJail==0
+		return self.black_jail==0
 
 	def free_white_pieces(self):
 		self.wFree += 1
-		self.wBoard += -1
+		self.white_board += -1
 
 	def free_black_pieces(self):
 		self.bFree += 1
-		self.bBoard += -1
+		self.black_board += -1
 
 	def __repr__(self):
 		boardstring = ""
 		for i in range(24):
-			boardstring += str(f"{self.myBoard[i]:^3}")
+			boardstring += str(f"{self.my_board[i]:^3}")
 		boardstring += "\n"
 		for i in range(24):
 			boardstring += str(f"{(i):^3}")
 		boardstring += "\n"
-		boardstring += "w in jail:" +str(f"{self.wJail}")
+		boardstring += "w in jail:" +str(f"{self.white_jail}")
 		boardstring += "\n"
-		boardstring += "b in jail:" +str(f"{self.bJail}")
+		boardstring += "b in jail:" +str(f"{self.black_jail}")
 		boardstring += "\n"
 		return boardstring

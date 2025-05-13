@@ -1,5 +1,5 @@
 from board import Board
-from backgammon_ls import RicercaLocale
+from backgammon_ls import local_search
 import random
 
 exitTerms = "q"
@@ -10,7 +10,7 @@ def main():
 	SIDE = True #True if white, false if black
 	print(b)
 	moves = 2
-	agente = RicercaLocale()
+	agente = local_search()
 	while (line not in exitTerms and (b.wFree < 15 or b.bFree < 15)):
 		roll1 = random.randint(1,6)
 		roll2 = random.randint(1,6)
@@ -21,10 +21,10 @@ def main():
 			print("B=-1")
 		if(SIDE):
 			print("You rolled a " + str(roll1) + " and a " + str(roll2))
-			a=b.posMoves(SIDE,roll1,roll2)
+			a=b.get_all_possible_moves(SIDE, roll1, roll2)
 			print("possible move:")
 			print(a)
-			h=b.heuristic(SIDE)
+			h=b.evaluate_heuristic(SIDE)
 			if (SIDE==True):
 				print("Heuristic White:")
 			else:
@@ -41,7 +41,7 @@ def main():
 						if(column==100):
 							return
 						if(column!=101):
-							outcome, response = b.makeMove(SIDE,column,steps)
+							outcome, response = b.make_move(SIDE, column, steps)
 							print(response)
 							print(b)
 						else:
@@ -50,21 +50,21 @@ def main():
 							print(b)
 		else:
 			print("You rolled a " + str(roll1) + " and a " + str(roll2))
-			mosse_migliori = agente.scegli_mossa(b,SIDE,roll1,roll2)
+			best_moves = agente.choose_best_moves(b, SIDE, roll1, roll2)
 			print("Best moves:")
-			print(mosse_migliori)
+			print(best_moves)
 			for i in range(moves):
 				if(skip==False):
 					outcome=False
 					while(outcome==False):
-						column,steps = mosse_migliori[i]
+						column,steps = best_moves[i]
 						if(column==-1):
 							if(steps==-1):
 								column=101
 						if(column==100):
 							return
 						if(column!=101):
-							outcome, response = b.makeMove(SIDE,column,steps)
+							outcome, response = b.make_move(SIDE, column, steps)
 							print(response)
 							print(b)
 						else:

@@ -18,10 +18,10 @@ def main():
 		else:
 			print("B=-1")
 		print("You rolled a " + str(roll1) + " and a " + str(roll2))
-		a=b.posMoves(SIDE,roll1,roll2)
+		a=b.get_all_possible_moves(SIDE, roll1, roll2)
 		print("Possible move:")
 		print(a)
-		h=b.heuristic(SIDE)
+		h=b.evaluate_heuristic(SIDE)
 		if (SIDE==True):
 			print("Heuristic value White:")
 		else:
@@ -38,7 +38,7 @@ def main():
 					if(column==100):
 						return
 					if(column!=101):
-						outcome, response = b.makeMove(SIDE,column,steps)
+						outcome, response = b.make_move(SIDE, column, steps)
 						print(response)
 						print(b)
 					else:
