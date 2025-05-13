@@ -9,18 +9,22 @@ class Board:
 	def makeMove(self,side,column,steps):
 		#controllo il lato, controllo se ci sono pedine in prigione, controllo se sulla colonna giusta posso muovermi, controllo la mossa
 		if side:#white +1
-			if (self.wJail > 0 and column!=-1):
+
+			if (not self.is_white_jail_empty() and column!=-1):
 				return (False, "Free the jail!")
-			elif(self.wJail > 0 and column ==-1):
+			elif(not self.is_white_jail_empty() and column ==-1):
 				#controllo casella arrivo, nel caso la fai
+
 				if(column+steps>25):
 					return(False,"Wrong steps number!")
 				else:
 					#fai la mossa
+
 					if(self.myBoard[column+steps]<-1):
 						return(False,"Arrival point not possible to occupy")
 					else:
 						#fai la mossa
+
 						self.wJail+=-1
 						if(self.myBoard[column+steps]==-1):
 							self.bJail+=1
@@ -29,26 +33,29 @@ class Board:
 						else:
 							self.myBoard[column+steps]+=1
 						return(True,"Move done")
+
 			if(column <-1 and column >23):
 				return (False, "Wrong number for the column!(too low or too big)")
 			else:
+
 				if(self.myBoard[column]<1):
-					return (False, "Wrong number for the column!(there aren't a white piece)")
+					return (False, "Wrong number for the column!(there aren't white pieces)")
 				else:
+
 					if((column+steps)>24):
 						for i in range(column):
 							if (self.myBoard[i]>0):
 								return (False, "There is a piece in a previous point")
+
 						if(self.wBoard == self.wHome):
 							self.myBoard[column]+=-1
-							self.wFree +=1
-							self.wBoard +=-1
+							self.free_white_pieces()
+
 					elif((column+steps)==24):
 						#controlla se tutti i pezzi sono a casa
 						if(self.wBoard == self.wHome):
 							self.myBoard[column]+=-1
-							self.wFree +=1
-							self.wBoard +=-1
+							self.free_white_pieces()
 						else:
 							return (False,"Impossible to free the piece! The other pieces are not in the home")
 					else:
@@ -69,9 +76,9 @@ class Board:
 								self.wHome+=1
 					return(True,"Move done")
 		else:
-			if (self.bJail > 0 and column!=24):
+			if (not self.is_black_jail_empty() and column!=24):
 				return (False, "Free the jail!")
-			elif(self.bJail > 0 and column ==24):
+			elif(not self.is_black_jail_empty() and column ==24):
 				#controllo casella arrivo, nel caso la fai
 				if(column-steps<-1):
 					return(False,"Wrong steps number!")
@@ -101,14 +108,12 @@ class Board:
 								return (False, "There is a piece in a previous point")
 						if(self.bBoard == self.bHome):
 							self.myBoard[column]+=1
-							self.bFree +=1
-							self.bBoard +=-1
+							self.free_black_pieces()
 					elif((column-steps)==-1):
 						#controlla se tutti i pezzi sono a casa
 						if(self.bBoard == self.bHome):
 							self.myBoard[column]+=1
-							self.bFree +=1
-							self.bBoard +=-1
+							self.free_black_pieces()
 						else:
 							return (False,"Impossible to free the piece! The other pieces are not in the home")
 					else:
@@ -431,6 +436,20 @@ class Board:
 		self.bHome = 5
 		self.wBoard = 15
 		self.bBoard = 15
+
+	def is_white_jail_empty(self):
+		return self.wJail==0
+
+	def is_black_jail_empty(self):
+		return self.bJail==0
+
+	def free_white_pieces(self):
+		self.wFree += 1
+		self.wBoard += -1
+
+	def free_black_pieces(self):
+		self.bFree += 1
+		self.bBoard += -1
 
 	def __repr__(self):
 		boardstring = ""
