@@ -62,8 +62,3 @@ Non sono necessarie librerie esterne.
 
 Progetto sviluppato da Paolo Martino [175974] e Mario Oreste Gallozzi [175082] 
 Corso di Intelligenza Artificiale, Università degli Studi del Molise
-
-## 📄 Licenza
-
-Questo progetto è distribuito sotto licenza MIT. Vedi il file [LICENSE](LICENSE) per maggiori dettagli.
-
