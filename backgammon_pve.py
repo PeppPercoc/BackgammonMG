@@ -37,7 +37,7 @@ def main():
 						print("You have "+ str(moves-i)+" moves")
 						print("What you wanna do? input:column steps")
 						line = input()
-						column,steps = parseInput(line)
+						column,steps = parse_input(line)
 						if(column==100):
 							return
 						if(column!=101):
@@ -78,17 +78,17 @@ def main():
 		else:
 			SIDE=True
 
-def parseInput(response):
+def parse_input(response):
 	if (response =='s'):
 		return (101,101)#skip perchè non ci sono mosse disponibili
 	if response in exitTerms:
 		return (100, 100)#controllo quit
 	# if type(response) == type("Sample string"):
 	# 	return(101,101)
-	loc = findSeparation(response)
+	loc = find_separation(response)
 	return(int(response[:loc]), int(response[loc+1:]))
 
-def findSeparation(value):
+def find_separation(value):
 	for i in range(len(value)):
 		if (value[i] == ' '):
 			return i
