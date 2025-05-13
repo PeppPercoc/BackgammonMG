@@ -1,6 +1,5 @@
 from board import Board
 import random
-import sys
 
 exitTerms = "q"
 def main():

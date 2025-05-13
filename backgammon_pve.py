@@ -1,7 +1,6 @@
 from board import Board
 from backgammon_ls import RicercaLocale
 import random
-import sys
 
 exitTerms = "q"
 def main():

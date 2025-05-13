@@ -1,5 +1,3 @@
-import random
-from board import Board
 from copy import deepcopy
 
 class RicercaLocale:
