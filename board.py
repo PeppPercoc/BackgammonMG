@@ -154,28 +154,45 @@ class Board:
 				#posMove(side,0,roll2)
 				elif(self.get_possible_move(side, -1, roll2)):
 						array_response.append([[-1,roll2],[-1,-1]])
+				else:
+					array_response.append([[-1,-1],[-1,-1]])
 			elif (self.white_jail == 1):
+				temp1=False
 				#posMove(side,0,roll1)
 				if(self.get_possible_move(side, -1, roll1)):
+					temp=False
 					for i in range(24):
 						if(self.my_board[i]>0):
 							#posMove(side,i,roll2)
 							if(self.get_possible_move(side, i, roll2)):
+								temp=True
+								temp1=True
 								array_response.append([[-1,roll1],[i,roll2]])
 					if(self.get_possible_move(side, roll1 - 1, roll2)):
+						temp=True
+						temp1=True
 						array_response.append([[-1,roll1],[roll1-1,roll2]])
-				else:
-					if(self.get_possible_move(side, -1, roll2)):
-						for i in range(24):
-							if(self.my_board[i]>0):
-								#posMove(side,i,roll1)
-								if(self.get_possible_move(side, i, roll1)):
-									array_response.append([[-1,roll2],[i,roll1]])
-					else:
-						#o solo
-						#posMove(side,0,roll1)
-						if(self.get_possible_move(side, -1, roll1)):
-							array_response.append([[-1,roll1],[-1,-1]])
+					if(temp==False):
+						temp1=True
+						array_response.append([[-1,roll1],[-1,-1]])
+				if(self.get_possible_move(side, -1, roll2)):
+					temp=False
+					for i in range(24):
+						if(self.my_board[i]>0):
+							#posMove(side,i,roll1)
+							if(self.get_possible_move(side, i, roll1)):
+								temp=True
+								temp1=True
+								array_response.append([[-1,roll2],[i,roll1]])
+					if(self.get_possible_move(side, roll2 - 1, roll1)):
+						temp=True
+						temp1=True
+						array_response.append([[-1,roll2],[roll2-1,roll1]])
+					if(temp==False):
+						temp1=True
+						array_response.append([[-1,roll2],[-1,-1]])
+				if(temp1==False):
+					array_response.append([[-1,-1],[-1,-1]])
 			else:
 					for i in range(24):
 						if(self.my_board[i]>0):
@@ -228,32 +245,45 @@ class Board:
 				#posMove(side,0,roll2)
 				elif(self.get_possible_move(side, 24, roll2)):
 						array_response.append([[24,roll2],[-1,-1]])
+				else:
+					array_response.append([[-1,-1],[-1,-1]])
 			elif (self.black_jail == 1):
+				temp1=False
 				#posMove(side,0,roll1)
 				if(self.get_possible_move(side, 24, roll1)):
+					temp=False
 					for i in range(24):
 						if(self.my_board[i]<0):
 							#posMove(side,i,roll2)
 							if(self.get_possible_move(side, i, roll2)):
+								temp=True
+								temp1=True
 								array_response.append([[24,roll1],[i,roll2]])
-				else:
-					#o solo
-					#posMove(side,0,roll2)
-					if(self.get_possible_move(side, 24, roll2)):
-						array_response.append([[24,roll2],[-1,-1]])
-				#o
-				#posMove(side,0,roll2)
+					if(self.get_possible_move(side, 24-roll1, roll2)):
+						temp=True
+						temp1=True
+						array_response.append([[24,roll1],[24-roll1,roll2]])
+					if(temp==False):
+						temp1=True
+						array_response.append([[-1,roll1],[-1,-1]])
 				if(self.get_possible_move(side, 24, roll2)):
+					temp=False
 					for i in range(24):
 						if(self.my_board[i]<0):
 							#posMove(side,i,roll1)
 							if(self.get_possible_move(side, i, roll1)):
+								temp1=True
+								temp=True
 								array_response.append([[24,roll2],[i,roll1]])
-				else:
-					#o solo
-					#posMove(side,0,roll1)
-					if(self.get_possible_move(side, 24, roll1)):
-						array_response.append([[24,roll1],[-1,-1]])
+					if(self.get_possible_move(side, 24-roll2, roll1)):
+						temp=True
+						temp1=True
+						array_response.append([[-1,roll2],[24-roll2,roll1]])
+					if(temp==False):
+						temp1=True
+						array_response.append([[-1,roll2],[-1,-1]])
+				if(temp1==False):
+					array_response.append([[-1,-1],[-1,-1]])
 			else:
 					for i in range(24):
 						if(self.my_board[i]<0):
