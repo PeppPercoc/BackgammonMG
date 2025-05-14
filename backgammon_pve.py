@@ -15,20 +15,14 @@ def main():
 		roll1 = random.randint(1,6)
 		roll2 = random.randint(1,6)
 		skip = False
-		if (SIDE==True):
-			print("W=1")
-		else:
-			print("B=-1")
 		if(SIDE):
+			print("W=1")
 			print("You rolled a " + str(roll1) + " and a " + str(roll2))
 			a=b.get_all_possible_moves(SIDE, roll1, roll2)
 			print("possible move:")
 			print(a)
 			h=b.evaluate_heuristic(SIDE)
-			if (SIDE==True):
-				print("Heuristic White:")
-			else:
-				print("Heuristic Black:")
+			print("Heuristic White:")
 			print(h)
 			for i in range(moves):
 				if(skip==False):
