@@ -94,7 +94,7 @@ class Board:
 						self.black_jail+=-1
 						if(self.my_board[column - steps]==1):
 							self.white_jail+=1
-							self.my_board[column - steps]=1
+							self.my_board[column - steps]=-1
 							self.white_home+=-1
 						else:
 							self.my_board[column - steps]+=-1
