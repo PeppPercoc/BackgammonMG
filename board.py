@@ -1,6 +1,3 @@
-from telnetlib import KERMIT
-
-
 class Board:
 	def __init__(self):
 		"""
