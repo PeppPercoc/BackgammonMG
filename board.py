@@ -4,7 +4,23 @@ class Board:
 		-1=black
 		1=white
 		"""
-		self.init_board()
+		self.my_board = [0]*24
+		self.my_board[0] = 2
+		self.my_board[5] = -5
+		self.my_board[7] = -3
+		self.my_board[11] = 5
+		self.my_board[12] = -5
+		self.my_board[16] = 3
+		self.my_board[23] = -2
+		self.my_board[18] = 5
+		self.wFree = 0
+		self.bFree = 0
+		self.white_jail = 0
+		self.black_jail = 0
+		self.white_home = 5
+		self.black_home = 5
+		self.white_board = 15
+		self.black_board = 15
 
 	def make_move(self, side, column, steps):
 		#controllo il lato, controllo se ci sono pedine in prigione, controllo se sulla colonna giusta posso muovermi, controllo la mossa
@@ -414,26 +430,6 @@ class Board:
 			heuristic_black+=3
 			return heuristic_black-heuristic_white
 
-	def init_board(self):
-		self.my_board = {}
-		for i in range(24):
-			self.my_board[i] = 0
-		self.my_board[0] = 2
-		self.my_board[5] = -5
-		self.my_board[7] = -3
-		self.my_board[11] = 5
-		self.my_board[12] = -5
-		self.my_board[16] = 3
-		self.my_board[23] = -2
-		self.my_board[18] = 5
-		self.wFree = 0
-		self.bFree = 0
-		self.white_jail = 0
-		self.black_jail = 0
-		self.white_home = 5
-		self.black_home = 5
-		self.white_board = 15
-		self.black_board = 15
 
 	def is_white_jail_empty(self):
 		return self.white_jail==0

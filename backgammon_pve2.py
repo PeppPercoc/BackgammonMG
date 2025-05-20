@@ -1,9 +1,18 @@
 from board import Board
+from backgammon_rl import reinforcement_learning
 import random
 
 exitTerms = "q"
 def main():
-
+	agente = reinforcement_learning()
+	print("Carico esperienza")
+	agente.upload_experiences("esperienze.json")
+	print("allenamento...")
+	agente.training(10)
+	print("Salva esperienza")
+	print(agente.politica)
+	#agente.save_experiences("esperienze.json")
+	print("L'allenamento è completato! Ora l'IA è pronto per giocare una partita.")
 
 def parse_input(response):
 	if (response =='s'):
