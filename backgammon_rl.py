@@ -5,23 +5,40 @@ from board import Board
 class reinforcement_learning:
 	def __init__(self):
 		""" Inizializza la politica dell'agente. """
-		self.politica = {}  # Dizionario {stato → {mossa → valore accumulato}}
+		self.politica_w = {}  # Dizionario {stato → {mossa → valore accumulato}}
+		self.politica_b = {}  # Dizionario {stato → {mossa → valore accumulato}}
 
-	def upload_experiences(self,file_path):
+	def upload_experiences_w(self,file_path):
 		try:
 			with open(file_path, "r") as f:
 				experiences = json.load(f)
 		except (FileNotFoundError, json.JSONDecodeError):
 			experiences = {}
-		self.politica=experiences
+		self.politica_w=experiences
 
-	def init_experiences(self, stringa, mosse):
+	def upload_experiences_b(self,file_path):
+		try:
+			with open(file_path, "r") as f:
+				experiences = json.load(f)
+		except (FileNotFoundError, json.JSONDecodeError):
+			experiences = {}
+		self.politica_b=experiences
+
+	def init_experiences_w(self, stringa, mosse):
 		stringa_mosse= json.dumps(mosse)
-		self.politica[stringa][stringa_mosse] = 0
+		self.politica_w[stringa][stringa_mosse] = 0
 
-	def save_experiences(self,file_path):
+	def init_experiences_b(self, stringa, mosse):
+		stringa_mosse= json.dumps(mosse)
+		self.politica_b[stringa][stringa_mosse] = 0
+
+	def save_experiences_w(self,file_path):
 		with open(file_path, "w") as f:
-			json.dump(self.politica, f, indent=2)
+			json.dump(self.politica_w, f, indent=2)
+
+	def save_experiences_b(self,file_path):
+		with open(file_path, "w") as f:
+			json.dump(self.politica_b, f, indent=2)
 
 	def training(self,episodes):
 		b = Board()
@@ -47,10 +64,16 @@ class reinforcement_learning:
 			stringa= json.dumps(b.my_board)
 			print("tavolo")
 			print(stringa)
-			if stringa not in self.politica:
-				self.politica[stringa] = {}
-				for mosse in a:
-					self.init_experiences(stringa,mosse)
+			if(side):
+				if stringa not in self.politica_w:
+					self.politica_w[stringa] = {}
+					for mosse in a:
+						self.init_experiences_w(stringa,mosse)
+			else:
+				if stringa not in self.politica_b:
+					self.politica_b[stringa] = {}
+					for mosse in a:
+						self.init_experiences_b(stringa,mosse)
 			mosse_casuali=random.choice(a)
 			print("mosse casuale")
 			print(mosse_casuali)

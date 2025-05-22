@@ -6,12 +6,16 @@ exitTerms = "q"
 def main():
 	agente = reinforcement_learning()
 	print("Carico esperienza")
-	agente.upload_experiences("esperienze.json")
+	agente.upload_experiences_w("esperienze_w.json")
+	agente.upload_experiences_b("esperienze_b.json")
 	print("allenamento...")
 	agente.training(10)
-	print("Salva esperienza")
-	print(agente.politica)
-	agente.save_experiences("esperienze.json")
+	print("Salva esperienza white")
+	print(agente.politica_w)
+	print("Salva esperienza black")
+	print(agente.politica_b)
+	agente.save_experiences_w("esperienze_w.json")
+	agente.save_experiences_b("esperienze_b.json")
 	print("L'allenamento è completato! Ora l'IA è pronto per giocare una partita.")
 
 def parse_input(response):
