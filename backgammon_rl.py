@@ -69,9 +69,15 @@ class reinforcement_learning:
 					self.politica_w[stringa] = {}
 					for mosse in a:
 						self.init_experiences_w(stringa,mosse)
+				else:
+					for mosse in a:
+						self.init_experiences_w(stringa,mosse)
 			else:
 				if stringa not in self.politica_b:
 					self.politica_b[stringa] = {}
+					for mosse in a:
+						self.init_experiences_b(stringa,mosse)
+				else:
 					for mosse in a:
 						self.init_experiences_b(stringa,mosse)
 			mosse_casuali=random.choice(a)
