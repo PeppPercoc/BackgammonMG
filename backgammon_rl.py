@@ -71,15 +71,21 @@ class reinforcement_learning:
 						self.init_experiences_w(stringa,mosse)
 				else:
 					for mosse in a:
-						self.init_experiences_w(stringa,mosse)
+						stringa_mosse= json.dumps(mosse)
+						if stringa_mosse not in self.politica_w[stringa]:
+							self.init_experiences_w(stringa,mosse)
 			else:
 				if stringa not in self.politica_b:
 					self.politica_b[stringa] = {}
 					for mosse in a:
-						self.init_experiences_b(stringa,mosse)
+						stringa_mosse= json.dumps(mosse)
+						if stringa_mosse not in self.politica_b[stringa]:
+							self.init_experiences_b(stringa,mosse)
 				else:
 					for mosse in a:
-						self.init_experiences_b(stringa,mosse)
+						stringa_mosse= json.dumps(mosse)
+						if stringa_mosse not in self.politica_b[stringa]:
+							self.init_experiences_b(stringa,mosse)
 			mosse_casuali=random.choice(a)
 			print("mosse casuale")
 			print(mosse_casuali)
