@@ -15,10 +15,9 @@ class reinforcement_learning:
 			experiences = {}
 		self.politica=experiences
 
-	def upgrade_experiences(self, stringa, mosse_migliori):
-		self.politica[stringa] = {}
-		for mossa in mosse_migliori:
-			self.politica[stringa][mossa] = 0
+	def init_experiences(self, stringa, mosse):
+		stringa_mosse= json.dumps(mosse)
+		self.politica[stringa][stringa_mosse] = 0
 
 	def save_experiences(self,file_path):
 		with open(file_path, "w") as f:
@@ -49,8 +48,9 @@ class reinforcement_learning:
 			print("tavolo")
 			print(stringa)
 			if stringa not in self.politica:
+				self.politica[stringa] = {}
 				for mosse in a:
-					self.upgrade_experiences(stringa,mosse)
+					self.init_experiences(stringa,mosse)
 			mosse_casuali=random.choice(a)
 			print("mosse casuale")
 			print(mosse_casuali)
