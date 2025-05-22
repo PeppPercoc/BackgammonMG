@@ -47,6 +47,8 @@ class reinforcement_learning:
 		moves=2
 		skip=False
 		k=0
+		mosse_scelte_w={}
+		mosse_scelte_b={}
 		while ((b.wFree < 15 or b.bFree < 15) and k<episodes):
 			roll1 = random.randint(1,6)
 			roll2 = random.randint(1,6)
@@ -87,6 +89,11 @@ class reinforcement_learning:
 						if stringa_mosse not in self.politica_b[stringa]:
 							self.init_experiences_b(stringa,mosse)
 			mosse_casuali=random.choice(a)
+			stringa_mosse_casuali= json.dumps(mosse)
+			if(side):
+				mosse_scelte_w[stringa]=stringa_mosse_casuali
+			else:
+				mosse_scelte_b[stringa]=stringa_mosse_casuali
 			print("mosse casuale")
 			print(mosse_casuali)
 			for mossa in mosse_casuali:
@@ -116,6 +123,16 @@ class reinforcement_learning:
 				side=True
 			k+=1
 			print(k)
+		print("mosse scelte w")
+		print(mosse_scelte_w)
+		print("mosse scelte b")
+		print(mosse_scelte_b)
+		if(b.wFree>15):
+			for stato in mosse_scelte_w:
+				self.politica_w[stato][mosse_scelte_w[stat0]]+=1
+		if(b.bFree>15):
+			for stato in mosse_scelte_b:
+				self.politica_w[stato][mosse_scelte_b[stat0]]+=1
 		print("episodi finiti")
 		#faccio allenameto per un numero di episodio
 		#gioco fichè ci sono episodi o finche non finisco la partita
