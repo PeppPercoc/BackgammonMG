@@ -17,10 +17,10 @@ def main():
 	print(b)
 	moves = 2
 	while (line not in exitTerms and (b.wFree < 15 or b.bFree < 15)):
-		roll1 = 6
-		roll2 = 6
+		roll1 = random.randint(1,6)
+		roll2 = random.randint(1,6)
 		skip = False
-		if not(SIDE):
+		if (SIDE):
 			print("W=1")
 			print("You rolled a " + str(roll1) + " and a " + str(roll2))
 			a=b.get_all_possible_moves(SIDE, roll1, roll2)
@@ -51,25 +51,19 @@ def main():
 			print("You rolled a " + str(roll1) + " and a " + str(roll2))
 			ls = local_search()
 			stringa= json.dumps(b.my_board)
-			print("b.my_board")
-			print(b.my_board)
-			print("stringa")
-			print(stringa)
-			print("agente.politica_w[stringa]")
-			print(agente.politica_w[stringa])
 			a=b.get_all_possible_moves(SIDE, roll1, roll2)
 			best_moves=[]
 			stringa_best_moves=[]
-			if stringa  in agente.politica_w:
+			if stringa  in agente.politica_b:
 				#controllare se esiste mossa
 				temp=0
 				for mossa in a:
 					stringa_mossa=json.dumps(mossa)
 					print(type(mossa))
-					print(agente.politica_w[stringa][stringa_mossa])
-					if stringa_mossa in agente.politica_w[stringa]:
-						if(agente.politica_w[stringa][stringa_mossa]>temp):
-							temp=agente.politica_w[stringa][stringa_mossa]
+					print(agente.politica_b[stringa][stringa_mossa])
+					if stringa_mossa in agente.politica_b[stringa]:
+						if(agente.politica_b[stringa][stringa_mossa]>temp):
+							temp=agente.politica_b[stringa][stringa_mossa]
 							stringa_best_moves=stringa_mossa
 				print("best_moves rl")
 				lista = ast.literal_eval(stringa_best_moves)
