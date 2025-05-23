@@ -56,7 +56,7 @@ def main():
 			stringa_best_moves=[]
 			if stringa  in agente.politica_b:
 				#controllare se esiste mossa
-				temp=0
+				temp=-1
 				for mossa in a:
 					stringa_mossa=json.dumps(mossa)
 					print(type(mossa))
@@ -65,11 +65,12 @@ def main():
 						if(agente.politica_b[stringa][stringa_mossa]>temp):
 							temp=agente.politica_b[stringa][stringa_mossa]
 							stringa_best_moves=stringa_mossa
-				print("best_moves rl")
-				lista = ast.literal_eval(stringa_best_moves)
-				best_moves = [tuple(x) for x in lista]
-				print(best_moves)
-				print(type(best_moves))
+				if(temp==-1):
+					best_moves= ls.choose_best_moves(b, SIDE,roll1,roll2)
+				else:
+					print("best_moves rl")
+					lista = ast.literal_eval(stringa_best_moves)
+					best_moves = [tuple(x) for x in lista]
 			else:
 				best_moves= ls.choose_best_moves(b, SIDE,roll1,roll2)
 			print("Best moves:")
