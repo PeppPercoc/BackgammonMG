@@ -9,7 +9,7 @@ def main():
 	agente.upload_experiences_w("esperienze_w.json")
 	agente.upload_experiences_b("esperienze_b.json")
 	print("allenamento...")
-	agente.training(60)
+	agente.training(10)
 	print("Salva esperienza white")
 	print(agente.politica_w)
 	print("Salva esperienza black")

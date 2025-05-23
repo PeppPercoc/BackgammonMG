@@ -40,6 +40,38 @@ class reinforcement_learning:
 		with open(file_path, "w") as f:
 			json.dump(self.politica_b, f, indent=2)
 
+	def choose_best_moves_b(self, b, side, roll1, roll2):
+		ls = local_search()
+		stringa= json.dumps(b.my_board)
+		if stringa  in self.politica_b:
+			best_moves= max(self.politica_b[stringa], key=self.politica_b[stato].get)
+			print("best_moves")
+			print(best_moves)
+			print(type(best_moves))
+			return best_moves
+		else:
+			best_moves= ls.choose_best_moves(b, side,roll1,roll2)
+			return best_moves
+
+	def choose_best_moves_w(self, b, side, roll1, roll2):
+		ls = local_search()
+		stringa= json.dumps(b.my_board)
+		print("b.my_board")
+		print(b.my_board)
+		print("stringa")
+		print(stringa)
+		print("self.politica_w[stringa]")
+		print(self.politica_w[stringa])
+		if stringa  in self.politica_w:
+			best_moves= max(self.politica_w[stringa], key=self.politica_w[stato].get)
+			print("best_moves rl")
+			print(best_moves)
+			print(type(best_moves))
+			return best_moves
+		else:
+			best_moves= ls.choose_best_moves(b, side,roll1,roll2)
+			return best_moves
+
 	def training(self,episodes):
 		b = Board()
 		print(b)
@@ -127,12 +159,12 @@ class reinforcement_learning:
 		print(mosse_scelte_w)
 		print("mosse scelte b")
 		print(mosse_scelte_b)
-		if(b.wFree>15):
+		if(b.wFree > 15):
 			for stato in mosse_scelte_w:
-				self.politica_w[stato][mosse_scelte_w[stat0]]+=1
-		if(b.bFree>15):
+				self.politica_w[stato][mosse_scelte_w[stato]]+=1
+		if(b.bFree > 15):
 			for stato in mosse_scelte_b:
-				self.politica_w[stato][mosse_scelte_b[stat0]]+=1
+				self.politica_b[stato][mosse_scelte_b[stato]]+=1
 		print("episodi finiti")
 		#faccio allenameto per un numero di episodio
 		#gioco fichè ci sono episodi o finche non finisco la partita
