@@ -2,7 +2,7 @@
 
 BackgammonMG è un progetto universitario che implementa il celebre gioco del Backgammon* in Python, con l'aggiunta di un modulo di intelligenza artificiale per giocare contro il computer.
 
-*La nostra implementazione non comprende la funzione del dado doppio. Nel gioco originale, quando si ottiene un dado doppio(Es. 6 e 6) si ha la possibilità di fare 4 mosse con il risultato dei dadi(Es. 6, 6, 6 e 6).
+*La nostra implementazione non comprende la funzione del dado doppio. Nel gioco originale, quando si ottiene un dado doppio (Es. 6 e 6) si ha la possibilità di fare 4 mosse con il risultato dei dadi (Es. 6, 6, 6 e 6).
 
 ## 🔧 Funzionalità
 
