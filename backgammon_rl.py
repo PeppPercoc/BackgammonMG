@@ -154,15 +154,12 @@ class reinforcement_learning:
 			else:
 				side=True
 			k+=1
-			print(k)
-		print("mosse scelte w")
-		print(mosse_scelte_w)
-		print("mosse scelte b")
-		print(mosse_scelte_b)
 		if(b.wFree > 15):
+			print("vinto bianco")
 			for stato in mosse_scelte_w:
 				self.politica_w[stato][mosse_scelte_w[stato]]+=1
 		if(b.bFree > 15):
+			print("vinto nero")
 			for stato in mosse_scelte_b:
 				self.politica_b[stato][mosse_scelte_b[stato]]+=1
 		print("episodi finiti")
