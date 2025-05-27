@@ -8,7 +8,9 @@ def main():
 	line = input()
 	SIDE = True #True if white, false if black
 	print(b)
-	while (line not in exitTerms and (b.wFree < 15 or b.bFree < 15)):
+	while (line not in exitTerms):
+		if(b.wFree > 14 or b.bFree > 14):
+				break
 		roll1 = int(input("Enter an roll1: "))
 		roll2 = int(input("Enter an roll2: "))
 		moves = 2

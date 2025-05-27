@@ -11,7 +11,9 @@ def main():
 	print(b)
 	moves = 2
 	agente = local_search()
-	while (line not in exitTerms and (b.wFree < 15 or b.bFree < 15)):
+	while (line not in exitTerms):
+		if(b.wFree > 14 or b.bFree > 14):
+				break
 		roll1 = random.randint(1,6)
 		roll2 = random.randint(1,6)
 		skip = False

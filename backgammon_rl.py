@@ -159,11 +159,11 @@ class reinforcement_learning:
 			else:
 				side=True
 			k+=1
-		if(b.wFree > 15):
+		if(b.wFree > 14):
 			print("vinto bianco")
 			for stato in mosse_scelte_w:
 				self.politica_w[stato][mosse_scelte_w[stato]]+=1
-		if(b.bFree > 15):
+		if(b.bFree > 14):
 			print("vinto nero")
 			for stato in mosse_scelte_b:
 				self.politica_b[stato][mosse_scelte_b[stato]]+=1
@@ -172,7 +172,7 @@ class reinforcement_learning:
 		print(k)
 		print("episodi finiti")
 		#faccio allenameto per un numero di episodio
-		#gioco fichè ci sono episodi o finche non finisco la partita
+		#gioco finchè ci sono episodi o finchè non finisco la partita
 		#comincio partita
 		#vedo se tavola esiste dentro al dizionario
 		#se esiste
