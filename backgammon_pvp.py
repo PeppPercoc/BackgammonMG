@@ -9,8 +9,8 @@ def main():
 	SIDE = True #True if white, false if black
 	print(b)
 	while (line not in exitTerms and (b.wFree < 15 or b.bFree < 15)):
-		roll1 = random.randint(1,6)
-		roll2 = random.randint(1,6)
+		roll1 = int(input("Enter an roll1: "))
+		roll2 = int(input("Enter an roll2: "))
 		moves = 2
 		skip = False
 		if (SIDE==True):

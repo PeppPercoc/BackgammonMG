@@ -16,7 +16,7 @@ class local_search:
 			for sublist in possible_moves[0]:
 				tempb.make_move(side, sublist[0], sublist[1])
 			temph=tempb.evaluate_heuristic(side)
-			best_moves=[[-1,-1],[-1,-1]]
+			best_moves=possible_moves[0]
 			for moves in possible_moves:
 				b2 = deepcopy(board)
 				outcome=False

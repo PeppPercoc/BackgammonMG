@@ -65,13 +65,17 @@ class Board:
 
 						if(self.white_board == self.white_home):
 							self.my_board[column]+=-1
+							self.white_home+=-1
 							self.free_white_pieces()
+							return(True, "Move done")
 
 					elif((column+steps)==24):
 						#controlla se tutti i pezzi sono a casa
 						if(self.white_board == self.white_home):
 							self.my_board[column]+=-1
+							self.white_home+=-1
 							self.free_white_pieces()
+							return(True, "Move done")
 						else:
 							return (False,"Impossible to free the piece! The other pieces are not in the home")
 					else:
@@ -88,8 +92,9 @@ class Board:
 							else:
 								self.my_board[column]+=-1
 								self.my_board[column + steps]+=1
-							if(column+steps>17):
-								self.white_home+=1
+							if(column<18):
+								if(column+steps>17):
+									self.white_home+=1
 					return(True,"Move done")
 		else:
 			if (not self.is_black_jail_empty() and column!=24):
@@ -125,11 +130,15 @@ class Board:
 						if(self.black_board == self.black_home):
 							self.my_board[column]+=1
 							self.free_black_pieces()
+							self.black_home+=-1
+							return (True,"Move done")
 					elif((column-steps)==-1):
 						#controlla se tutti i pezzi sono a casa
 						if(self.black_board == self.black_home):
 							self.my_board[column]+=1
 							self.free_black_pieces()
+							self.black_home+=-1
+							return (True,"Move done")
 						else:
 							return (False,"Impossible to free the piece! The other pieces are not in the home")
 					else:
@@ -141,13 +150,14 @@ class Board:
 								self.white_jail+=1
 								self.my_board[column]+=1
 								self.my_board[column - steps]=-1
-								if((column+steps)>17):
+								if((column-steps)>17):
 									self.white_home+=-1
 							else:
 								self.my_board[column]+=1
 								self.my_board[column - steps]+=-1
-							if(column+-steps<6):
-								self.white_home+=1
+							if(column>5):
+								if(column-steps<6):
+									self.black_home+=1
 					return(True,"Move done")
 
 	def get_all_possible_moves(self, side, roll1, roll2):
@@ -216,9 +226,10 @@ class Board:
 								if(self.my_board[i]>1):
 									if(self.get_possible_move(side, i, roll2)):
 										array_response.append([(i,roll1),(i,roll2)])
-								if(self.my_board[i + roll1]==0):
-									if(self.get_possible_move(side, i + roll1, roll2)):
-										array_response.append([(i,roll1),(i+roll1,roll2)])
+								if(i+roll1<24):
+									if(self.my_board[i + roll1]==0):
+										if(self.get_possible_move(side, i + roll1, roll2)):
+											array_response.append([(i,roll1),(i+roll1,roll2)])
 								for j in range(24):
 									if(i!=j):
 										if(self.my_board[j]>0):
@@ -232,8 +243,9 @@ class Board:
 						if(self.my_board[i]>0):
 							#posMove(side,i,roll1)
 							if(self.get_possible_move(side, i, roll2)):
-								if(self.get_possible_move(side, i + roll2, roll1)):
-									array_response.append([(i,roll2),(i+roll2,roll1)])
+								if(roll2+i<24):
+									if(self.get_possible_move(side, i + roll2, roll1)):
+										array_response.append([(i,roll2),(i+roll2,roll1)])
 								temp=False
 								for j in range(24):
 									if(i!=j):
@@ -291,7 +303,7 @@ class Board:
 					if(self.get_possible_move(side, 24-roll2, roll1)):
 						temp=True
 						temp1=True
-						array_response.append([(-1,roll2),(24-roll2,roll1)])
+						array_response.append([(24,roll2),(24-roll2,roll1)])
 					if(temp==False):
 						temp1=True
 						array_response.append([(-1,roll2),(-1,-1)])
@@ -307,8 +319,10 @@ class Board:
 								if(self.my_board[i]<-1):
 									if(self.get_possible_move(side, i, roll2)):
 										array_response.append([(i,roll1),(i,roll2)])
-								if(self.get_possible_move(side, i - roll1, roll2)):#a
-									array_response.append([(i,roll1),(i-roll1,roll2)])
+								if(i-roll1>-1):
+									if(self.my_board[i - roll1]==0):
+										if(self.get_possible_move(side, i - roll1, roll2)):
+											array_response.append([(i,roll1),(i-roll1,roll2)])
 								for j in range(24):
 									if(i!=j):
 										if(self.my_board[j]<0):
@@ -322,8 +336,9 @@ class Board:
 						if(self.my_board[i]<0):
 							#posMove(side,i,roll1)
 							if(self.get_possible_move(side, i, roll2)):
-								if(self.get_possible_move(side, i - roll2, roll1)):
-									array_response.append([(i,roll2),(i-roll2,roll1)])
+								if(roll2-i>-1):
+									if(self.get_possible_move(side, i - roll2, roll1)):
+										array_response.append([(i,roll2),(i-roll2,roll1)])
 								temp=False
 								for j in range(24):
 									if(i!=j):
@@ -456,5 +471,17 @@ class Board:
 		boardstring += "w in jail:" +str(f"{self.white_jail}")
 		boardstring += "\n"
 		boardstring += "b in jail:" +str(f"{self.black_jail}")
+		boardstring += "\n"
+		boardstring += "w in home:" +str(f"{self.white_home}")
+		boardstring += "\n"
+		boardstring += "b in home:" +str(f"{self.black_home}")
+		boardstring += "\n"
+		boardstring += "w in board:" +str(f"{self.white_board}")
+		boardstring += "\n"
+		boardstring += "b in board:" +str(f"{self.black_board}")
+		boardstring += "\n"
+		boardstring += "w free:" +str(f"{self.wFree}")
+		boardstring += "\n"
+		boardstring += "b free:" +str(f"{self.bFree}")
 		boardstring += "\n"
 		return boardstring

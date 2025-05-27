@@ -1,6 +1,7 @@
 import json
 import random
 from board import Board
+from backgammon_ls import local_search
 
 class reinforcement_learning:
 	def __init__(self):
@@ -81,7 +82,9 @@ class reinforcement_learning:
 		k=0
 		mosse_scelte_w={}
 		mosse_scelte_b={}
-		while ((b.wFree < 15 or b.bFree < 15) and k<episodes):
+		while (k<episodes):
+			if(b.wFree > 14 or b.bFree > 14):
+				break
 			roll1 = random.randint(1,6)
 			roll2 = random.randint(1,6)
 			print("episodio n.")
@@ -120,8 +123,10 @@ class reinforcement_learning:
 						stringa_mosse= json.dumps(mosse)
 						if stringa_mosse not in self.politica_b[stringa]:
 							self.init_experiences_b(stringa,mosse)
-			mosse_casuali=random.choice(a)
-			stringa_mosse_casuali= json.dumps(mosse)
+			ls = local_search()
+			mosse_casuali= ls.choose_best_moves(b, side,roll1,roll2)
+			#mosse_casuali=random.choice(a)
+			stringa_mosse_casuali= json.dumps(mosse_casuali)
 			if(side):
 				mosse_scelte_w[stringa]=stringa_mosse_casuali
 			else:
@@ -162,6 +167,9 @@ class reinforcement_learning:
 			print("vinto nero")
 			for stato in mosse_scelte_b:
 				self.politica_b[stato][mosse_scelte_b[stato]]+=1
+		print(b.wFree)
+		print(b.bFree)
+		print(k)
 		print("episodi finiti")
 		#faccio allenameto per un numero di episodio
 		#gioco fichè ci sono episodi o finche non finisco la partita
