@@ -34,6 +34,9 @@ def main():
 						print("What you wanna do? input:column steps")
 						line = input()
 						column,steps = parse_input(line)
+						if(column==-1):
+							if(steps==-1):
+								column=101
 						if(column==100):
 							return
 						if(column!=101):

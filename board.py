@@ -30,7 +30,8 @@ class Board:
 				return (False, "Free the jail!")
 			elif(not self.is_white_jail_empty() and column ==-1):
 				#controllo casella arrivo, nel caso la fai
-
+				if(steps==-1):
+					return (False, "Free the jail!")
 				if(column+steps>25):
 					return(False,"Wrong steps number!")
 				else:

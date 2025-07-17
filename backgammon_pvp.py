@@ -11,8 +11,8 @@ def main():
 	while (line not in exitTerms):
 		if(b.wFree > 14 or b.bFree > 14):
 				break
-		roll1 = int(input("Enter an roll1: "))
-		roll2 = int(input("Enter an roll2: "))
+		roll1 = random.randint(1,6)
+		roll2 = random.randint(1,6)#int(input("Enter an roll2: "))
 		moves = 2
 		skip = False
 		if (SIDE==True):
@@ -37,6 +37,9 @@ def main():
 					print("What you wanna do? input:column steps")
 					line = input()
 					column,steps = parse_input(line)
+					if(column==-1):
+						if(steps==-1):
+							column=101
 					if(column==100):
 						return
 					if(column!=101):
@@ -46,6 +49,7 @@ def main():
 					else:
 						outcome=True
 						skip=True
+						print("Skip turn")
 						print(b)
 		if (SIDE==True):
 			SIDE=False
