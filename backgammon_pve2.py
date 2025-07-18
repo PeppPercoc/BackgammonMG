@@ -61,13 +61,12 @@ def main():
 				temp=-1
 				for mossa in a:
 					stringa_mossa=json.dumps(mossa)
-					print(type(mossa))
-					print(agente.politica_b[stringa][stringa_mossa])
 					if stringa_mossa in agente.politica_b[stringa]:
 						if(agente.politica_b[stringa][stringa_mossa]>temp):
 							temp=agente.politica_b[stringa][stringa_mossa]
 							stringa_best_moves=stringa_mossa
 				if(temp==-1):
+					print("ls")
 					best_moves= ls.choose_best_moves(b, SIDE,roll1,roll2)
 				else:
 					print("best_moves rl")
