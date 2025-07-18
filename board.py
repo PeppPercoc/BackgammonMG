@@ -291,7 +291,7 @@ class Board:
 						array_response.append([(24,roll1),(24-roll1,roll2)])
 					if(temp==False):
 						temp1=True
-						array_response.append([(-1,roll1),(-1,-1)])
+						array_response.append([(24,roll1),(-1,-1)])
 				if(self.get_possible_move(side, 24, roll2)):
 					temp=False
 					for i in range(24):
