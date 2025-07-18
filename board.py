@@ -163,6 +163,10 @@ class Board:
 
 	def get_all_possible_moves(self, side, roll1, roll2):
 		array_response=[]
+		if (roll2>roll1):
+			t=roll1
+			roll1=roll2
+			roll2=t
 		if side:
 			if (self.white_jail>1):
 				#posMove(side,0,roll1)
@@ -357,7 +361,13 @@ class Board:
 				if(self.white_board == self.white_home):
 					if(column+steps>24):
 						temp=False
-						for i in range(column-1):
+						print("column")
+						print(column)
+						print("steps")
+						print(steps)
+						for i in range(column):
+							print("i")
+							print(i)
 							if(self.my_board[i]>0):
 								temp=True
 						if(temp==True):

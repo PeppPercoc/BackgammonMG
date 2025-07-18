@@ -122,9 +122,9 @@ class reinforcement_learning:
 						stringa_mosse= json.dumps(mosse)
 						if stringa_mosse not in self.politica_b[stringa]:
 							self.init_experiences_b(stringa,mosse)
-			ls = local_search()
-			mosse_casuali= ls.choose_best_moves(b, side,roll1,roll2)
-			#mosse_casuali=random.choice(a)
+			#ls = local_search()
+			#mosse_casuali= ls.choose_best_moves(b, side,roll1,roll2)
+			mosse_casuali=random.choice(a)
 			stringa_mosse_casuali= json.dumps(mosse_casuali)
 			if(side):
 				mosse_scelte_w[stringa]=stringa_mosse_casuali
