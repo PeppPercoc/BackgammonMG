@@ -127,10 +127,13 @@ class reinforcement_learning:
 							self.init_experiences_b(stringa,mosse)
 			#ls = local_search()
 			#mosse_casuali= ls.choose_best_moves(b, side,roll1,roll2)
-			mosse_casuali=random.choice(a)
+			#mosse_casuali=random.choice(a)
 			if random.random() < epsilon:
 				print("mosse scelta casualmente")
-				mosse_casuali=random.choice(a)
+				if(len(a)!=0):
+					mosse_casuali=random.choice(a)
+				else:
+					mosse_casuali=[[-1,-1],[-1,-1]]
 			else:
 				print("mossa scelta con ls")
 				mosse_casuali= ls.choose_best_moves(b, side,roll1,roll2)
@@ -169,7 +172,8 @@ class reinforcement_learning:
 		if(b.wFree > 14):
 			print("vinto bianco")
 			for stato in mosse_scelte_w:
-				self.politica_w[stato][mosse_scelte_w[stato]]+=1
+				if(mosse_scelte_w[stato]!="[[-1, -1], [-1, -1]]"):
+					self.politica_w[stato][mosse_scelte_w[stato]]+=1
 		if(b.bFree > 14):
 			print("vinto nero")
 			for stato in mosse_scelte_b:
