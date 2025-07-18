@@ -361,13 +361,7 @@ class Board:
 				if(self.white_board == self.white_home):
 					if(column+steps>24):
 						temp=False
-						print("column")
-						print(column)
-						print("steps")
-						print(steps)
 						for i in range(column):
-							print("i")
-							print(i)
 							if(self.my_board[i]>0):
 								temp=True
 						if(temp==True):
