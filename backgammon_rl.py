@@ -3,6 +3,8 @@ import random
 from board import Board
 from backgammon_ls import local_search
 
+epsilon = 0.5
+
 class reinforcement_learning:
 	def __init__(self):
 		""" Inizializza la politica dell'agente. """
@@ -75,6 +77,7 @@ class reinforcement_learning:
 
 	def training(self,episodes):
 		b = Board()
+		ls = local_search()
 		print(b)
 		side=True
 		moves=2
@@ -125,13 +128,18 @@ class reinforcement_learning:
 			#ls = local_search()
 			#mosse_casuali= ls.choose_best_moves(b, side,roll1,roll2)
 			mosse_casuali=random.choice(a)
+			if random.random() < epsilon:
+				print("mosse scelta casualmente")
+				mosse_casuali=random.choice(a)
+			else:
+				print("mossa scelta con ls")
+				mosse_casuali= ls.choose_best_moves(b, side,roll1,roll2)
+			print(mosse_casuali)
 			stringa_mosse_casuali= json.dumps(mosse_casuali)
 			if(side):
 				mosse_scelte_w[stringa]=stringa_mosse_casuali
 			else:
 				mosse_scelte_b[stringa]=stringa_mosse_casuali
-			print("mosse casuale")
-			print(mosse_casuali)
 			for mossa in mosse_casuali:
 				if(skip==False):
 					outcome=False
@@ -146,19 +154,6 @@ class reinforcement_learning:
 						if(column!=101):
 							outcome, response = b.make_move(side, column, steps)
 							print(response)
-							if(outcome ==False):
-								print("colonna")
-								print(column)
-								print("steps")
-								print(steps)
-								print("mossa")
-								print(mosse_casuali)
-								print("roll1")
-								print(roll1)
-								print("roll2")
-								print(roll2)
-								print("poss moves")
-								print(a)
 							print(b)
 						else:
 							print("skip")
