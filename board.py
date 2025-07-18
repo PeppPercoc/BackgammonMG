@@ -307,7 +307,7 @@ class Board:
 						array_response.append([(24,roll2),(24-roll2,roll1)])
 					if(temp==False):
 						temp1=True
-						array_response.append([(-1,roll2),(-1,-1)])
+						array_response.append([(24,roll2),(-1,-1)])
 				if(temp1==False):
 					array_response.append([(-1,-1),(-1,-1)])
 			else:

@@ -99,7 +99,6 @@ class reinforcement_learning:
 				print("Heuristic value Black:")
 			print(h)
 			stringa= json.dumps(b.my_board)
-			print("tavolo")
 			print(stringa)
 			if(side):
 				if stringa not in self.politica_w:
@@ -147,6 +146,19 @@ class reinforcement_learning:
 						if(column!=101):
 							outcome, response = b.make_move(side, column, steps)
 							print(response)
+							if(outcome ==False):
+								print("colonna")
+								print(column)
+								print("steps")
+								print(steps)
+								print("mossa")
+								print(mosse_casuali)
+								print("roll1")
+								print(roll1)
+								print("roll2")
+								print(roll2)
+								print("poss moves")
+								print(a)
 							print(b)
 						else:
 							print("skip")
@@ -166,9 +178,12 @@ class reinforcement_learning:
 		if(b.bFree > 14):
 			print("vinto nero")
 			for stato in mosse_scelte_b:
-				self.politica_b[stato][mosse_scelte_b[stato]]+=1
-		print(b.wFree)
-		print(b.bFree)
+				#print("stato")
+				#print(stato)
+				#print("mosse_scelte_b")
+				#print(mosse_scelte_b[stato])
+				if(mosse_scelte_b[stato]!="[[-1, -1], [-1, -1]]"):
+					self.politica_b[stato][mosse_scelte_b[stato]]+=1
 		print(k)
 		print("episodi finiti")
 		#faccio allenameto per un numero di episodio
