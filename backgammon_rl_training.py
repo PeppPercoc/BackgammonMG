@@ -9,11 +9,16 @@ def main():
 	agente.upload_experiences_w("esperienze_w.json")
 	agente.upload_experiences_b("esperienze_b.json")
 	print("allenamento...")
-	agente.training(300)
-	print("Salva esperienza white")
-	print("Salva esperienza black")
-	agente.save_experiences_w("esperienze_w.json")
-	agente.save_experiences_b("esperienze_b.json")
+	print("Quante partite vuoi fare?")
+	match = input()
+	print("Quanti episodi puo' avere una partita?")
+	episodes = input()
+	for i in range(int(match)):
+		agente.training(int(episodes))
+		print("Salva esperienza white")
+		print("Salva esperienza black")
+		agente.save_experiences_w("esperienze_w.json")
+		agente.save_experiences_b("esperienze_b.json")
 	print("L'allenamento è completato! Ora l'IA è pronto per giocare una partita.")
 
 def parse_input(response):

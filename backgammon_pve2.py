@@ -9,7 +9,7 @@ exitTerms = "q"
 def main():
 	agente = reinforcement_learning()
 	print("Carico esperienza")
-	agente.upload_experiences_w("esperienze_w.json")
+	agente.upload_experiences_b("esperienze_b.json")
 	b = Board()
 	print("Press q if you want to quit, or press something else")
 	line = input()
