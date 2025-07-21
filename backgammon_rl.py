@@ -55,30 +55,30 @@ class reinforcement_learning:
 				break
 			roll1 = random.randint(1,6)
 			roll2 = random.randint(1,6)
-			print("Episode no.")
-			print(k)
-			a=b.get_all_possible_moves(side, roll1, roll2)
-			print("Possible moves:")
-			print(a)
-			h=b.evaluate_heuristic(side)
-			if (side==True):
-				print("Heuristic value White:")
-			else:
-				print("Heuristic value Black:")
-			print(h)
+			# print("Episode no.")
+			# print(k)
+			all_moves=b.get_all_possible_moves(side, roll1, roll2)
+			# print("Possible moves:")
+			# print(a)
+			#h=b.evaluate_heuristic(side)
+			#if (side==True):
+			#	print("Heuristic value White:")
+			#else:
+			#	print("Heuristic value Black:")
+			#print(h)
 			string= json.dumps(b.my_board)
-			print(string)
+			#print(string)
 
 			if random.random() < epsilon:
-				print("Random chosen moves: ")
-				if(len(a)!=0):
-					moves=random.choice(a)
+				#print("Random chosen moves: ")
+				if(len(all_moves)!=0):
+					moves=random.choice(all_moves)
 				else:
 					moves=[[-1,-1],[-1,-1]]
 			else:
-				print("Moves chosen with local search: ")
+				#print("Moves chosen with local search: ")
 				moves= ls.choose_best_moves(b, side,roll1,roll2)
-			print(moves)
+			#print(moves)
 			moves_string= json.dumps(moves)
 
 			if (side):
@@ -101,35 +101,37 @@ class reinforcement_learning:
 							return
 						if(column!=101):
 							outcome, response = b.make_move(side, column, steps)
-							print(response)
-							print(b)
+							#print(response)
+							#print(b)
 						else:
-							print("skip")
+							#print("skip")
 							outcome=True
 							skip=True
-							print(b)
+							#print(b)
 			skip=False
 			if (side==True):
 				side=False
 			else:
 				side=True
 			k+=1
+
+		print(k)
+		print("Episodes ended")
+
 		if(b.wFree > 14):
-			print("White won")
+			#print("White won")
 			for status in chosen_moves_w:
 				if(chosen_moves_w[status]!="[[-1, -1], [-1, -1]]"):
 					self.politic_w[status][chosen_moves_w[status]]+=1
+			return 1
+
 		if(b.bFree > 14):
-			print("Black won")
+			#print("Black won")
 			for status in chosen_moves_b:
-				#print("stato")
-				#print(stato)
-				#print("mosse_scelte_b")
-				#print(mosse_scelte_b[stato])
 				if(chosen_moves_b[status]!="[[-1, -1], [-1, -1]]"):
 					self.politic_b[status][chosen_moves_b[status]]+=1
-		print(k)
-		print("Episodes ended")
+			return 0
+
 		#faccio allenameto per un numero di episodio
 		#gioco finchè ci sono episodi o finchè non finisco la partita
 		#comincio partita

@@ -1,6 +1,7 @@
 from board import Board
 from backgammon_rl import reinforcement_learning
 import random
+import time
 
 exitTerms = "q"
 def main():
@@ -14,11 +15,14 @@ def main():
 	print("How many episodes per match?")
 	episodes = input()
 	for i in range(int(match)):
-		agent.training(int(episodes))
-		print("Saving white experience")
-		agent.save_experiences_w("experience_w.json")
-		print("Saving black experience")
-		agent.save_experiences_b("experience_b.json")
+		print("Match no: ")
+		print(i)
+		if(agent.training(int(episodes))):
+			print("Saving white experience")
+			agent.save_experiences_w("experience_w.json")
+		else:
+			print("Saving black experience")
+			agent.save_experiences_b("experience_b.json")
 	print("Training completed! Now the AI is ready to play.")
 
 def parse_input(response):
@@ -38,4 +42,8 @@ def find_separation(value):
 	return 0
 
 if __name__ == "__main__":
+	start_time = time.time()
 	main()
+	end_time = time.time()
+	elapsed_time = end_time - start_time
+	print(f"Il training ha richiesto {elapsed_time:.2f} secondi.")
