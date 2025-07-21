@@ -82,10 +82,10 @@ class reinforcement_learning:
 			moves_string= json.dumps(moves)
 
 			if (side):
-				self.init_experience(self.politic_w, string, moves_string)
+				#self.init_experience(self.politic_w, string, moves_string)
 				chosen_moves_w[string] = moves_string
 			else:
-				self.init_experience(self.politic_b, string, moves_string)
+				#self.init_experience(self.politic_b, string, moves_string)
 				chosen_moves_b[string] = moves_string
 
 			for move in moves:
@@ -121,15 +121,25 @@ class reinforcement_learning:
 		if(b.wFree > 14):
 			#print("White won")
 			for status in chosen_moves_w:
-				if(chosen_moves_w[status]!="[[-1, -1], [-1, -1]]"):
-					self.politic_w[status][chosen_moves_w[status]]+=1
+				if status not in self.politic_w:
+					self.politic_w[status] = {}
+				if chosen_moves_w[status] not in self.politic_w[status]:
+					self.politic_w[status][chosen_moves_w[status]] = 1
+				else:
+					if(chosen_moves_w[status]!="[[-1, -1], [-1, -1]]"):
+						self.politic_w[status][chosen_moves_w[status]]+=1
 			return 1
 
 		if(b.bFree > 14):
 			#print("Black won")
 			for status in chosen_moves_b:
-				if(chosen_moves_b[status]!="[[-1, -1], [-1, -1]]"):
-					self.politic_b[status][chosen_moves_b[status]]+=1
+				if status not in self.politic_b:
+					self.politic_b[status] = {}
+				if chosen_moves_b[status] not in self.politic_b[status]:
+					self.politic_b[status][chosen_moves_b[status]] = 1
+				else:
+					if(chosen_moves_b[status]!="[[-1, -1], [-1, -1]]"):
+						self.politic_b[status][chosen_moves_b[status]]+=1
 			return 0
 
 		#faccio allenameto per un numero di episodio
