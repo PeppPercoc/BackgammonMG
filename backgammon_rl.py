@@ -43,38 +43,6 @@ class reinforcement_learning:
 		with open(file_path, "w") as f:
 			json.dump(self.politic_b, f, indent=2)
 
-	""" def choose_best_moves_b(self, b, side, roll1, roll2):
-		ls = local_search()
-		stringa= json.dumps(b.my_board)
-		if stringa  in self.politic_b:
-			best_moves= max(self.politic_b[stringa], key=self.politic_b[stato].get)
-			print("Best moves")
-			print(best_moves)
-			print(type(best_moves))
-			return best_moves
-		else:
-			best_moves= ls.choose_best_moves(b, side,roll1,roll2)
-			return best_moves
-
-	def choose_best_moves_w(self, b, side, roll1, roll2):
-		ls = local_search()
-		stringa= json.dumps(b.my_board)
-		# print("b.my_board")
-		print(b.my_board)
-		# print("stringa")
-		print(stringa)
-		# print("self.politica_w[stringa]")
-		print(self.politic_w[stringa])
-		if stringa  in self.politic_w:
-			best_moves= max(self.politic_w[stringa], key=self.politic_w[stato].get)
-			# print("best_moves rl")
-			print(best_moves)
-			print(type(best_moves))
-			return best_moves
-		else:
-			best_moves= ls.choose_best_moves(b, side,roll1,roll2)
-			return best_moves """
-
 	def training(self,episodes):
 		b = Board()
 		ls = local_search()
