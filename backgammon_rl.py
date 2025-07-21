@@ -7,9 +7,9 @@ epsilon = 0.5
 
 class reinforcement_learning:
 	def __init__(self):
-		""" Inizializza la politica dell'agente. """
-		self.politica_w = {}  # Dizionario {stato → {mossa → valore accumulato}}
-		self.politica_b = {}  # Dizionario {stato → {mossa → valore accumulato}}
+		''' Initializing agent's politic.'''
+		self.politic_w = {}  # Dizionario {stato → {mossa → valore accumulato}}
+		self.politic_b = {}  # Dizionario {stato → {mossa → valore accumulato}}
 
 	def upload_experiences_w(self,file_path):
 		try:
@@ -17,7 +17,7 @@ class reinforcement_learning:
 				experiences = json.load(f)
 		except (FileNotFoundError, json.JSONDecodeError):
 			experiences = {}
-		self.politica_w=experiences
+		self.politic_w=experiences
 
 	def upload_experiences_b(self,file_path):
 		try:
@@ -25,30 +25,30 @@ class reinforcement_learning:
 				experiences = json.load(f)
 		except (FileNotFoundError, json.JSONDecodeError):
 			experiences = {}
-		self.politica_b=experiences
+		self.politic_b=experiences
 
-	def init_experiences_w(self, stringa, mosse):
-		stringa_mosse= json.dumps(mosse)
-		self.politica_w[stringa][stringa_mosse] = 0
+	def init_experiences_w(self, string, moves):
+		moves_string= json.dumps(moves)
+		self.politic_w[string][moves_string] = 0
 
-	def init_experiences_b(self, stringa, mosse):
-		stringa_mosse= json.dumps(mosse)
-		self.politica_b[stringa][stringa_mosse] = 0
+	def init_experiences_b(self, string, moves):
+		moves_string = json.dumps(moves)
+		self.politic_b[string][moves_string] = 0
 
 	def save_experiences_w(self,file_path):
 		with open(file_path, "w") as f:
-			json.dump(self.politica_w, f, indent=2)
+			json.dump(self.politic_w, f, indent=2)
 
 	def save_experiences_b(self,file_path):
 		with open(file_path, "w") as f:
-			json.dump(self.politica_b, f, indent=2)
+			json.dump(self.politic_b, f, indent=2)
 
-	def choose_best_moves_b(self, b, side, roll1, roll2):
+	""" def choose_best_moves_b(self, b, side, roll1, roll2):
 		ls = local_search()
 		stringa= json.dumps(b.my_board)
-		if stringa  in self.politica_b:
-			best_moves= max(self.politica_b[stringa], key=self.politica_b[stato].get)
-			print("best_moves")
+		if stringa  in self.politic_b:
+			best_moves= max(self.politic_b[stringa], key=self.politic_b[stato].get)
+			print("Best moves")
 			print(best_moves)
 			print(type(best_moves))
 			return best_moves
@@ -59,21 +59,21 @@ class reinforcement_learning:
 	def choose_best_moves_w(self, b, side, roll1, roll2):
 		ls = local_search()
 		stringa= json.dumps(b.my_board)
-		print("b.my_board")
+		# print("b.my_board")
 		print(b.my_board)
-		print("stringa")
+		# print("stringa")
 		print(stringa)
-		print("self.politica_w[stringa]")
-		print(self.politica_w[stringa])
-		if stringa  in self.politica_w:
-			best_moves= max(self.politica_w[stringa], key=self.politica_w[stato].get)
-			print("best_moves rl")
+		# print("self.politica_w[stringa]")
+		print(self.politic_w[stringa])
+		if stringa  in self.politic_w:
+			best_moves= max(self.politic_w[stringa], key=self.politic_w[stato].get)
+			# print("best_moves rl")
 			print(best_moves)
 			print(type(best_moves))
 			return best_moves
 		else:
 			best_moves= ls.choose_best_moves(b, side,roll1,roll2)
-			return best_moves
+			return best_moves """
 
 	def training(self,episodes):
 		b = Board()
@@ -83,17 +83,17 @@ class reinforcement_learning:
 		moves=2
 		skip=False
 		k=0
-		mosse_scelte_w={}
-		mosse_scelte_b={}
+		chosen_moves_w={}
+		chosen_moves_b={}
 		while (k<episodes):
 			if(b.wFree > 14 or b.bFree > 14):
 				break
 			roll1 = random.randint(1,6)
 			roll2 = random.randint(1,6)
-			print("episodio n.")
+			print("Episode no.")
 			print(k)
 			a=b.get_all_possible_moves(side, roll1, roll2)
-			print("Possible move:")
+			print("Possible moves:")
 			print(a)
 			h=b.evaluate_heuristic(side)
 			if (side==True):
@@ -101,54 +101,54 @@ class reinforcement_learning:
 			else:
 				print("Heuristic value Black:")
 			print(h)
-			stringa= json.dumps(b.my_board)
-			print(stringa)
+			string= json.dumps(b.my_board)
+			print(string)
 			if(side):
-				if stringa not in self.politica_w:
-					self.politica_w[stringa] = {}
-					for mosse in a:
-						self.init_experiences_w(stringa,mosse)
+				if string not in self.politic_w:
+					self.politic_w[string] = {}
+					for moves in a:
+						self.init_experiences_w(string,moves)
 				else:
-					for mosse in a:
-						stringa_mosse= json.dumps(mosse)
-						if stringa_mosse not in self.politica_w[stringa]:
-							self.init_experiences_w(stringa,mosse)
+					for moves in a:
+						moves_string= json.dumps(moves)
+						if moves_string not in self.politic_w[string]:
+							self.init_experiences_w(string,moves)
 			else:
-				if stringa not in self.politica_b:
-					self.politica_b[stringa] = {}
-					for mosse in a:
-						stringa_mosse= json.dumps(mosse)
-						if stringa_mosse not in self.politica_b[stringa]:
-							self.init_experiences_b(stringa,mosse)
+				if string not in self.politic_b:
+					self.politic_b[string] = {}
+					for moves in a:
+						moves_string= json.dumps(moves)
+						if moves_string not in self.politic_b[string]:
+							self.init_experiences_b(string,moves)
 				else:
-					for mosse in a:
-						stringa_mosse= json.dumps(mosse)
-						if stringa_mosse not in self.politica_b[stringa]:
-							self.init_experiences_b(stringa,mosse)
+					for moves in a:
+						moves_string= json.dumps(moves)
+						if moves_string not in self.politic_b[string]:
+							self.init_experiences_b(string,moves)
 			#ls = local_search()
 			#mosse_casuali= ls.choose_best_moves(b, side,roll1,roll2)
 			#mosse_casuali=random.choice(a)
 			if random.random() < epsilon:
-				print("mosse scelta casualmente")
+				print("Random chosen moves: ")
 				if(len(a)!=0):
-					mosse_casuali=random.choice(a)
+					random_moves=random.choice(a)
 				else:
-					mosse_casuali=[[-1,-1],[-1,-1]]
+					random_moves=[[-1,-1],[-1,-1]]
 			else:
-				print("mossa scelta con ls")
-				mosse_casuali= ls.choose_best_moves(b, side,roll1,roll2)
-			print(mosse_casuali)
-			stringa_mosse_casuali= json.dumps(mosse_casuali)
+				print("Moves chosen with local search: ")
+				random_moves= ls.choose_best_moves(b, side,roll1,roll2)
+			print(random_moves)
+			random_moves_string= json.dumps(random_moves)
 			if(side):
-				mosse_scelte_w[stringa]=stringa_mosse_casuali
+				chosen_moves_w[string]=random_moves_string
 			else:
-				mosse_scelte_b[stringa]=stringa_mosse_casuali
-			for mossa in mosse_casuali:
+				chosen_moves_b[string]=random_moves_string
+			for move in random_moves:
 				if(skip==False):
 					outcome=False
 					while(outcome==False):
-						column = mossa[0]
-						steps = mossa[1]
+						column = move[0]
+						steps = move[1]
 						if(column==-1):
 							if(steps==-1):
 								column=101
@@ -170,21 +170,21 @@ class reinforcement_learning:
 				side=True
 			k+=1
 		if(b.wFree > 14):
-			print("vinto bianco")
-			for stato in mosse_scelte_w:
-				if(mosse_scelte_w[stato]!="[[-1, -1], [-1, -1]]"):
-					self.politica_w[stato][mosse_scelte_w[stato]]+=1
+			print("White won")
+			for status in chosen_moves_w:
+				if(chosen_moves_w[status]!="[[-1, -1], [-1, -1]]"):
+					self.politic_w[status][chosen_moves_w[status]]+=1
 		if(b.bFree > 14):
-			print("vinto nero")
-			for stato in mosse_scelte_b:
+			print("Black won")
+			for status in chosen_moves_b:
 				#print("stato")
 				#print(stato)
 				#print("mosse_scelte_b")
 				#print(mosse_scelte_b[stato])
-				if(mosse_scelte_b[stato]!="[[-1, -1], [-1, -1]]"):
-					self.politica_b[stato][mosse_scelte_b[stato]]+=1
+				if(chosen_moves_b[status]!="[[-1, -1], [-1, -1]]"):
+					self.politic_b[status][chosen_moves_b[status]]+=1
 		print(k)
-		print("episodi finiti")
+		print("Episodes ended")
 		#faccio allenameto per un numero di episodio
 		#gioco finchè ci sono episodi o finchè non finisco la partita
 		#comincio partita
