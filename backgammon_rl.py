@@ -27,13 +27,11 @@ class reinforcement_learning:
 			experiences = {}
 		self.politic_b=experiences
 
-	def init_experiences_w(self, string, moves):
-		moves_string= json.dumps(moves)
-		self.politic_w[string][moves_string] = 0
-
-	def init_experiences_b(self, string, moves):
-		moves_string = json.dumps(moves)
-		self.politic_b[string][moves_string] = 0
+	def init_experience(self, politic, string, chosen_move_string):
+		if string not in politic:
+			politic[string] = {}
+		if chosen_move_string not in politic[string]:
+			politic[string][chosen_move_string] = 0
 
 	def save_experiences_w(self,file_path):
 		with open(file_path, "w") as f:
@@ -70,31 +68,7 @@ class reinforcement_learning:
 			print(h)
 			string= json.dumps(b.my_board)
 			print(string)
-			if(side):
-				if string not in self.politic_w:
-					self.politic_w[string] = {}
-					for moves in a:
-						self.init_experiences_w(string,moves)
-				else:
-					for moves in a:
-						moves_string= json.dumps(moves)
-						if moves_string not in self.politic_w[string]:
-							self.init_experiences_w(string,moves)
-			else:
-				if string not in self.politic_b:
-					self.politic_b[string] = {}
-					for moves in a:
-						moves_string= json.dumps(moves)
-						if moves_string not in self.politic_b[string]:
-							self.init_experiences_b(string,moves)
-				else:
-					for moves in a:
-						moves_string= json.dumps(moves)
-						if moves_string not in self.politic_b[string]:
-							self.init_experiences_b(string,moves)
-			#ls = local_search()
-			#mosse_casuali= ls.choose_best_moves(b, side,roll1,roll2)
-			#mosse_casuali=random.choice(a)
+
 			if random.random() < epsilon:
 				print("Random chosen moves: ")
 				if(len(a)!=0):
@@ -106,10 +80,14 @@ class reinforcement_learning:
 				moves= ls.choose_best_moves(b, side,roll1,roll2)
 			print(moves)
 			moves_string= json.dumps(moves)
-			if(side):
-				chosen_moves_w[string]=moves_string
+
+			if (side):
+				self.init_experience(self.politic_w, string, moves_string)
+				chosen_moves_w[string] = moves_string
 			else:
-				chosen_moves_b[string]=moves_string
+				self.init_experience(self.politic_b, string, moves_string)
+				chosen_moves_b[string] = moves_string
+
 			for move in moves:
 				if(skip==False):
 					outcome=False

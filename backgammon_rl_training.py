@@ -6,8 +6,8 @@ exitTerms = "q"
 def main():
 	agent = reinforcement_learning()
 	print("Loading previous experience")
-	agent.upload_experiences_w("esperienze_w.json")
-	agent.upload_experiences_b("esperienze_b.json")
+	agent.upload_experiences_w("experience_w.json")
+	agent.upload_experiences_b("experience_b.json")
 	print("Training...")
 	print("How many matches to play?")
 	match = input()
@@ -16,9 +16,9 @@ def main():
 	for i in range(int(match)):
 		agent.training(int(episodes))
 		print("Saving white experience")
-		agent.save_experiences_w("esperienze_w.json")
+		agent.save_experiences_w("experience_w.json")
 		print("Saving black experience")
-		agent.save_experiences_b("esperienze_b.json")
+		agent.save_experiences_b("experience_b.json")
 	print("Training completed! Now the AI is ready to play.")
 
 def parse_input(response):
