@@ -7,9 +7,9 @@ import ast
 
 exitTerms = "q"
 def main():
-	agente = reinforcement_learning()
-	print("Carico esperienza")
-	agente.upload_experiences_b("esperienze_b.json")
+	agent = reinforcement_learning()
+	print("Loading experience...")
+	agent.upload_experiences_b("esperienze_b.json")
 	b = Board()
 	print("Press q if you want to quit, or press something else")
 	line = input()
@@ -52,25 +52,25 @@ def main():
 		else:
 			print("You rolled a " + str(roll1) + " and a " + str(roll2))
 			ls = local_search()
-			stringa= json.dumps(b.my_board)
+			string= json.dumps(b.my_board)
 			a=b.get_all_possible_moves(SIDE, roll1, roll2)
 			best_moves=[]
-			stringa_best_moves=[]
-			if stringa  in agente.politica_b:
+			string_best_moves=[]
+			if string  in agent.politic_b:
 				#controllare se esiste mossa
 				temp=-1
-				for mossa in a:
-					stringa_mossa=json.dumps(mossa)
-					if stringa_mossa in agente.politica_b[stringa]:
-						if(agente.politica_b[stringa][stringa_mossa]>temp):
-							temp=agente.politica_b[stringa][stringa_mossa]
-							stringa_best_moves=stringa_mossa
+				for move in a:
+					moves_string=json.dumps(move)
+					if moves_string in agent.politic_b[string]:
+						if(agent.politic_b[string][moves_string] > temp):
+							temp=agent.politic_b[string][moves_string]
+							string_best_moves=moves_string
 				if(temp==-1):
-					print("ls")
+					print("Local search:")
 					best_moves= ls.choose_best_moves(b, SIDE,roll1,roll2)
 				else:
-					print("best_moves rl")
-					lista = ast.literal_eval(stringa_best_moves)
+					print("Reinforcement learning best moves:")
+					lista = ast.literal_eval(string_best_moves)
 					best_moves = [tuple(x) for x in lista]
 			else:
 				best_moves= ls.choose_best_moves(b, SIDE,roll1,roll2)
