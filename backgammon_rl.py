@@ -48,7 +48,6 @@ class reinforcement_learning:
 		ls = local_search()
 		print(b)
 		side=True
-		moves=2
 		skip=False
 		k=0
 		chosen_moves_w={}
@@ -99,19 +98,19 @@ class reinforcement_learning:
 			if random.random() < epsilon:
 				print("Random chosen moves: ")
 				if(len(a)!=0):
-					random_moves=random.choice(a)
+					moves=random.choice(a)
 				else:
-					random_moves=[[-1,-1],[-1,-1]]
+					moves=[[-1,-1],[-1,-1]]
 			else:
 				print("Moves chosen with local search: ")
-				random_moves= ls.choose_best_moves(b, side,roll1,roll2)
-			print(random_moves)
-			random_moves_string= json.dumps(random_moves)
+				moves= ls.choose_best_moves(b, side,roll1,roll2)
+			print(moves)
+			moves_string= json.dumps(moves)
 			if(side):
-				chosen_moves_w[string]=random_moves_string
+				chosen_moves_w[string]=moves_string
 			else:
-				chosen_moves_b[string]=random_moves_string
-			for move in random_moves:
+				chosen_moves_b[string]=moves_string
+			for move in moves:
 				if(skip==False):
 					outcome=False
 					while(outcome==False):
