@@ -20,7 +20,7 @@ class local_search:
 			for moves in possible_moves:
 				b2 = deepcopy(board)
 				outcome=False
-				print(f"[DEBUG] Analyzed moves: {moves}")
+				# print(f"[DEBUG] Analyzed moves: {moves}")
 				# `mossa` è una lista contenente due sottoliste, ad esempio: [[0, 2], [0, 4]]
 				for sublist in moves:
 					# Ora `sublist` è una lista, ad esempio: [0, 2]
