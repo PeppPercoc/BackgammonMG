@@ -5,7 +5,7 @@ import random
 exitTerms = "q"
 def main():
 	agent = reinforcement_learning()
-	print("Loading prevoius experience")
+	print("Loading previous experience")
 	agent.upload_experiences_w("esperienze_w.json")
 	agent.upload_experiences_b("esperienze_b.json")
 	print("Training...")
