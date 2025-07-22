@@ -15,14 +15,20 @@ def main():
 	print("How many episodes per match?")
 	episodes = input()
 	for i in range(int(match)):
-		print("Match no: ")
-		print(i)
 		if(agent.training(int(episodes))):
-			print("Saving white experience")
-			agent.save_experiences_w("experience_w.json")
+			print("Match no: ")
+			print(i)
+			#print("Saving white experience")
+			#agent.save_experiences_w("experience_w.json")
 		else:
-			print("Saving black experience")
-			agent.save_experiences_b("experience_b.json")
+			print("Match no: ")
+			print(i)
+			#print("Saving black experience")
+			#agent.save_experiences_b("experience_b.json")
+	print("Saving white experience")
+	agent.save_experiences_w("experience_w.json")
+	print("Saving black experience")
+	agent.save_experiences_b("experience_b.json")
 	print("Training completed! Now the AI is ready to play.")
 
 def parse_input(response):
